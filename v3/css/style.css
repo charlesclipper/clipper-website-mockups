@@ -377,3 +377,6 @@ body{padding-top:var(--header-h)}
   .hero--charter .watermark{display:none}
   .hero--charter::after{background:linear-gradient(180deg,rgba(20,28,40,.45) 0%,rgba(20,28,40,0) 40%)}
 }
+/* A11y (WCAG 2.1 AA, large text >= 3:1): stronger scrim under the Charter hero headline on desktop */
+@media (min-width:901px){.hero--charter::after{background:linear-gradient(180deg,rgba(20,28,40,.25) 0%,rgba(20,28,40,0) 35%,rgba(20,28,40,.15) 60%,rgba(20,28,40,.72) 100%)}}
+.hero--charter .display{text-shadow:0 1px 18px rgba(10,16,26,.35)}
