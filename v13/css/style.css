@@ -706,11 +706,14 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 
 /* Footer: white, so it contrasts with the paper/sand/navy section above it on every page (hairline top rule) */
 .site-footer{background:#fff;border-top:1px solid var(--line)}
-/* Footer: logo, contact and follow only. Logo left, the two link blocks right. */
-.footer-grid{grid-template-columns:minmax(260px,1.6fr) minmax(0,1fr) minmax(0,1fr);gap:var(--s8);align-items:start}
+/* Footer: logo block at left, then Contact, Charter, AltitudeAccess, Maintenance, Company, Follow */
+.footer-grid{grid-template-columns:minmax(0,1.5fr) minmax(0,1.7fr) repeat(5,minmax(0,1fr));gap:var(--s5);align-items:start}
 .footer-grid a{overflow-wrap:anywhere}
-@media (max-width:900px){.footer-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6)}.footer-grid > :first-child{grid-column:1/-1}}
-@media (max-width:560px){.footer-grid{grid-template-columns:minmax(0,1fr)}}
+.footer-logo{max-width:100%}
+.footer-grid h4 a{color:inherit}
+@media (max-width:1100px){.footer-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s6) var(--s5)}.footer-grid > :first-child{grid-column:1/-1}}
+@media (max-width:640px){.footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.footer-grid{grid-template-columns:minmax(0,1fr)}}
 .footer-bottom{justify-content:flex-start}
 
 /* V13 verify fix: long single-word display headings (e.g. "AltitudeAccess") must fit at 360 */
