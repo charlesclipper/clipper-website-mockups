@@ -876,3 +876,10 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 .hero--aa::after{background:linear-gradient(180deg,rgba(20,28,40,.38) 0%,rgba(20,28,40,0) 28%,rgba(20,28,40,.30) 48%,rgba(20,28,40,.72) 100%)}
 .hero--aa .display{text-shadow:0 1px 18px rgba(10,16,26,.45)}
 @media (max-width:480px){.aa-intro-title{font-size:clamp(24px,7vw,28px)}}
+
+/* V18: AltitudeAccess price block sits to the right of the Fixed rates text (own component, not the .stats overlay) */
+.rate-split{align-items:center}
+.rate-block{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s3);padding-left:clamp(32px,5vw,80px);border-left:1px solid var(--line);text-align:left}
+.rate-block .rate-num{margin:0;font-family:var(--font-display);font-weight:300;font-size:clamp(56px,6vw,88px);line-height:1;color:var(--sage);font-variant-numeric:lining-nums}
+.rate-block .label{margin:0;line-height:1.6}
+@media (max-width:900px){.rate-block{padding:var(--s6) 0 0;border-left:0;border-top:1px solid var(--line)}.rate-block .rate-num{font-size:clamp(48px,14vw,64px)}}
