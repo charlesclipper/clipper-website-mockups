@@ -892,3 +892,31 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 #fleet-title{text-wrap:balance}
 /* V19: the Fleet text block is shorter now; keep the card scrollers at their previous size (cards are matched to this block, and Service and Safety copy the Fleet card) */
 @media (min-width:901px){#fleet .fleet-text{min-height:clamp(380px,31vw,470px);min-height:round(up,clamp(380px,31vw,470px),1px)}}
+.nowrap{white-space:nowrap}
+.v-body .v-title{font-size:clamp(28px,2.7vw,40px)}
+@media (max-width:600px){.v-body .v-title{font-size:clamp(22px,6.4vw,28px);letter-spacing:.06em}}
+
+/* =====================================================================
+   V19: Hero bottom fade to Paper (#F4F2EE), Home and Charter heroes (the only heroes that fade to the page background).
+   - ::after = tagline scrim (same look as V18) plus a long smootherstep fade (12 stops, zero slope at both ends) whose
+     last 3 percent is solid Paper, so the bottom edge has no seam or Mach band (the hero background is Paper too).
+   - ::before = an extra, earlier and weaker fade masked horizontally by the photo's measured darkness near the bottom
+     edge (darker or busier columns fade earlier and stronger; bright columns less, so the aircraft is not washed out).
+     Mask profiles were measured per layout (desktop crop, mobile crop) with PIL from screenshots of the photo.
+   ===================================================================== */
+.hero.hero--charter{background:var(--paper)}
+.hero.hero--charter::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(244,242,238,0) 40.0%,rgba(244,242,238,0.003) 44.4%,rgba(244,242,238,0.018) 48.8%,rgba(244,242,238,0.052) 53.2%,rgba(244,242,238,0.105) 57.7%,rgba(244,242,238,0.173) 62.1%,rgba(244,242,238,0.250) 66.5%,rgba(244,242,238,0.327) 70.9%,rgba(244,242,238,0.395) 75.3%,rgba(244,242,238,0.448) 79.8%,rgba(244,242,238,0.482) 84.2%,rgba(244,242,238,0.497) 88.6%,rgba(244,242,238,0.500) 93.0%);
+  -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0.55) 3.6%,rgba(0,0,0,0.60) 10.7%,rgba(0,0,0,0.71) 17.9%,rgba(0,0,0,0.85) 25.0%,rgba(0,0,0,0.90) 32.1%,rgba(0,0,0,1.00) 39.3%,rgba(0,0,0,0.83) 46.4%,rgba(0,0,0,0.62) 53.6%,rgba(0,0,0,0.57) 60.7%,rgba(0,0,0,0.57) 67.9%,rgba(0,0,0,0.36) 75.0%,rgba(0,0,0,0.70) 82.1%,rgba(0,0,0,1.00) 89.3%,rgba(0,0,0,0.23) 96.4%);mask-image:linear-gradient(90deg,rgba(0,0,0,0.55) 3.6%,rgba(0,0,0,0.60) 10.7%,rgba(0,0,0,0.71) 17.9%,rgba(0,0,0,0.85) 25.0%,rgba(0,0,0,0.90) 32.1%,rgba(0,0,0,1.00) 39.3%,rgba(0,0,0,0.83) 46.4%,rgba(0,0,0,0.62) 53.6%,rgba(0,0,0,0.57) 60.7%,rgba(0,0,0,0.57) 67.9%,rgba(0,0,0,0.36) 75.0%,rgba(0,0,0,0.70) 82.1%,rgba(0,0,0,1.00) 89.3%,rgba(0,0,0,0.23) 96.4%)}
+.hero.hero--charter::after{background:
+  linear-gradient(180deg,rgba(244,242,238,0) 48.0%,rgba(244,242,238,0.005) 52.1%,rgba(244,242,238,0.035) 56.2%,rgba(244,242,238,0.104) 60.2%,rgba(244,242,238,0.210) 64.3%,rgba(244,242,238,0.347) 68.4%,rgba(244,242,238,0.500) 72.5%,rgba(244,242,238,0.653) 76.6%,rgba(244,242,238,0.790) 80.7%,rgba(244,242,238,0.896) 84.8%,rgba(244,242,238,0.965) 88.8%,rgba(244,242,238,0.995) 92.9%,rgba(244,242,238,1.000) 97.0%,var(--paper) 97%,var(--paper) 100%),
+  radial-gradient(ellipse 72% 78% at 26% 34%,rgba(12,20,36,.74) 0%,rgba(12,20,36,.52) 55%,rgba(12,20,36,0) 100%),
+  linear-gradient(180deg,rgba(16,26,44,.68) 0%,rgba(16,26,44,.5) 22%,rgba(16,26,44,.16) 40%,rgba(16,26,44,0) 52%)}
+@media (max-width:900px){
+  .hero.hero--charter::before{background:linear-gradient(180deg,rgba(244,242,238,0) 34.0%,rgba(244,242,238,0.003) 38.7%,rgba(244,242,238,0.018) 43.3%,rgba(244,242,238,0.052) 48.0%,rgba(244,242,238,0.105) 52.7%,rgba(244,242,238,0.173) 57.3%,rgba(244,242,238,0.250) 62.0%,rgba(244,242,238,0.327) 66.7%,rgba(244,242,238,0.395) 71.3%,rgba(244,242,238,0.448) 76.0%,rgba(244,242,238,0.482) 80.7%,rgba(244,242,238,0.497) 85.3%,rgba(244,242,238,0.500) 90.0%);
+    -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0.83) 3.6%,rgba(0,0,0,1.00) 10.7%,rgba(0,0,0,0.91) 17.9%,rgba(0,0,0,0.92) 25.0%,rgba(0,0,0,1.00) 32.1%,rgba(0,0,0,0.87) 39.3%,rgba(0,0,0,0.77) 46.4%,rgba(0,0,0,0.69) 53.6%,rgba(0,0,0,0.74) 60.7%,rgba(0,0,0,0.91) 67.9%,rgba(0,0,0,0.61) 75.0%,rgba(0,0,0,0.61) 82.1%,rgba(0,0,0,0.89) 89.3%,rgba(0,0,0,0.97) 96.4%);mask-image:linear-gradient(90deg,rgba(0,0,0,0.83) 3.6%,rgba(0,0,0,1.00) 10.7%,rgba(0,0,0,0.91) 17.9%,rgba(0,0,0,0.92) 25.0%,rgba(0,0,0,1.00) 32.1%,rgba(0,0,0,0.87) 39.3%,rgba(0,0,0,0.77) 46.4%,rgba(0,0,0,0.69) 53.6%,rgba(0,0,0,0.74) 60.7%,rgba(0,0,0,0.91) 67.9%,rgba(0,0,0,0.61) 75.0%,rgba(0,0,0,0.61) 82.1%,rgba(0,0,0,0.89) 89.3%,rgba(0,0,0,0.97) 96.4%)}
+  .hero.hero--charter::after{background:
+    linear-gradient(180deg,rgba(244,242,238,0) 42.0%,rgba(244,242,238,0.005) 46.6%,rgba(244,242,238,0.035) 51.2%,rgba(244,242,238,0.104) 55.8%,rgba(244,242,238,0.210) 60.3%,rgba(244,242,238,0.347) 64.9%,rgba(244,242,238,0.500) 69.5%,rgba(244,242,238,0.653) 74.1%,rgba(244,242,238,0.790) 78.7%,rgba(244,242,238,0.896) 83.2%,rgba(244,242,238,0.965) 87.8%,rgba(244,242,238,0.995) 92.4%,rgba(244,242,238,1.000) 97.0%,var(--paper) 97%,var(--paper) 100%),
+    radial-gradient(ellipse 90% 50% at 40% 24%,rgba(12,20,36,.5) 0%,rgba(12,20,36,0) 100%),
+    linear-gradient(180deg,rgba(16,26,44,.62) 0%,rgba(16,26,44,.42) 30%,rgba(16,26,44,.12) 48%,rgba(16,26,44,0) 62%)}
+}
