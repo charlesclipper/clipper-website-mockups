@@ -889,3 +889,6 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 .home-intro-title{font-size:clamp(28px,3.1vw,44px);margin-bottom:var(--s5)}
 .home-intro-body{max-width:44em;margin-left:auto;margin-right:auto;font-size:18px;text-wrap:pretty}
 @media (max-width:420px){.home-intro-title{font-size:clamp(23px,6.6vw,26px)}}
+#fleet-title{text-wrap:balance}
+/* V19: the Fleet text block is shorter now; keep the card scrollers at their previous size (cards are matched to this block, and Service and Safety copy the Fleet card) */
+@media (min-width:901px){#fleet .fleet-text{min-height:clamp(380px,31vw,470px);min-height:round(up,clamp(380px,31vw,470px),1px)}}
