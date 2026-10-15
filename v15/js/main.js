@@ -47,15 +47,17 @@
     };
     /* Reveal buffer (V15): once hidden by scrolling down, the header only returns after the user has scrolled UP by a
        cumulative distance (about 120px desktop, 80px mobile). The upward total resets whenever direction flips to down. */
-    var upAcc = 0;
+    var upAcc = 0, upIntentAt = 0;
     var revealDist = function () { return window.matchMedia('(max-width: 900px)').matches ? 80 : 120; };
     var onHeaderScroll = function () {
       var y = Math.max(0, window.scrollY);
       if (navLock) { header.classList.remove('is-hidden'); lastY = y; upAcc = 0; ticking = false; return; }
       var dy = y - lastY;
       if (dy > 0) {
-        upAcc = 0;
-        if (y <= hideAfter()) setHidden(false); else setHidden(true);
+        // A small downward move right after an upward wheel is scroll-snap settling back, not the user scrolling down
+        var snapSettle = (Date.now() - upIntentAt < 800) && dy < 400;
+        if (!snapSettle) upAcc = 0;
+        if (y <= hideAfter()) setHidden(false); else if (!snapSettle) setHidden(true);
       } else if (dy < 0) {
         upAcc += -dy;
         if (y <= hideAfter() || upAcc >= revealDist()) setHidden(false);
@@ -63,6 +65,17 @@
       lastY = y; ticking = false;
     };
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; window.requestAnimationFrame(onHeaderScroll); } }, { passive: true });
+    /* Wheel intent: scroll-snap can pull a short upward wheel scroll back to its stop, so the upward distance is also
+       counted from the wheel input itself (reset when the wheel turns downward). Same 120px / 80px buffer applies. */
+    var wheelUp = 0;
+    window.addEventListener('wheel', function (e) {
+      if (navLock) return;
+      if (e.deltaY > 0) { wheelUp = 0; return; }
+      if (e.deltaY < 0) {
+        upIntentAt = Date.now(); wheelUp += -e.deltaY;
+        if (wheelUp >= revealDist()) { wheelUp = 0; upAcc = 0; setHidden(false); }
+      }
+    }, { passive: true });
     if ('onscrollend' in window) window.addEventListener('scrollend', releaseLock);
     header.addEventListener('focusin', function () { if (header.querySelector(':focus-visible')) header.classList.remove('is-hidden'); });
     // Any link to a hash on this page (#x or page.html#x), from the header, dropdown, mobile menu or footer
