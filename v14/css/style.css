@@ -398,7 +398,6 @@ body{padding-top:var(--header-h)}
 @media (min-width:1200px){.intro-title,.intro-body{white-space:nowrap}}
 /* headings reduced 30% */
 .h-reduced{font-size:clamp(27px,3.2vw,43px)}
-.hero .display.h-reduced-display{font-size:clamp(28px,3.5vw,50px)}
 
 /* =====================================================================
    V5 (Charles feedback, 2026-10-14): Charter page
@@ -592,7 +591,6 @@ body{padding-top:var(--header-h)}
 }
 #fleet-title,#tour-title,#service-title,#safety-title{font-size:clamp(20px,2vw,34px)}
 @media (max-width:1023px){#fleet-title,#tour-title,#service-title,#safety-title{font-size:clamp(27px,3.2vw,34px)}}
-.service-section .fleet-text .checklist{margin-bottom:0}
 
 /* =====================================================================
    V12: Baggage card, each render over its live-text capacity tile

@@ -24,20 +24,55 @@
     var hideAfter = function () { return header.offsetHeight; };
     var canHide = function () { return !document.body.classList.contains('menu-open') && !document.body.classList.contains('modal-open') && !header.querySelector(':focus-visible'); };
     var setHidden = function (h) { header.classList.toggle('is-hidden', h && canHide()); };
+    /* Anchor navigation lock: while a link-triggered jump / smooth scroll is in flight the header stays put
+       (visible, stuck to the top). The lock clears on scrollend, when the scroll position has settled, after a hard
+       cap, or on the first manual input (wheel, touch, scroll keys, pointer press). Clearing re-baselines lastY so
+       only a later manual scroll down past the header height hides it again. */
+    var navLock = false, lockPoll = 0, lockCap = 0;
+    var releaseLock = function () {
+      if (!navLock) return;
+      navLock = false; window.clearInterval(lockPoll); window.clearTimeout(lockCap);
+      lastY = Math.max(0, window.scrollY);
+    };
+    var startLock = function () {
+      navLock = true; header.classList.remove('is-hidden');
+      window.clearInterval(lockPoll); window.clearTimeout(lockCap);
+      var prev = -1, still = 0;
+      lockPoll = window.setInterval(function () {
+        var y = Math.round(window.scrollY);
+        still = (y === prev) ? still + 1 : 0; prev = y;
+        if (still >= 4) releaseLock();            // unchanged for about 200ms (starts after the jump has begun)
+      }, 50);
+      lockCap = window.setTimeout(releaseLock, 3000);   // hard cap for very long smooth scrolls
+    };
     var onHeaderScroll = function () {
       var y = Math.max(0, window.scrollY);
+      if (navLock) { header.classList.remove('is-hidden'); lastY = y; ticking = false; return; }
       if (y <= hideAfter()) setHidden(false);
       else if (y > lastY) setHidden(true);
       else if (y < lastY) setHidden(false);
       lastY = y; ticking = false;
     };
     window.addEventListener('scroll', function () { if (!ticking) { ticking = true; window.requestAnimationFrame(onHeaderScroll); } }, { passive: true });
+    if ('onscrollend' in window) window.addEventListener('scrollend', releaseLock);
     header.addEventListener('focusin', function () { if (header.querySelector(':focus-visible')) header.classList.remove('is-hidden'); });
-    // Anchor jumps: show the header and re-baseline, so it can never be left stuck hidden over the target
-    var jumped = function () { header.classList.remove('is-hidden'); window.requestAnimationFrame(function () { lastY = window.scrollY; }); };
-    window.addEventListener('hashchange', jumped);
-    document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href^="#"]'); if (a) jumped(); });
-    window.addEventListener('keydown', function (e) { if (e.key === 'Tab') header.classList.remove('is-hidden'); });
+    // Any link to a hash on this page (#x or page.html#x), from the header, dropdown, mobile menu or footer
+    var samePageHash = function (a) {
+      try { var u = new URL(a.href, window.location.href); return !!u.hash && u.origin === window.location.origin && u.pathname === window.location.pathname; }
+      catch (err) { return false; }
+    };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (a && samePageHash(a)) startLock();
+    });
+    window.addEventListener('hashchange', startLock);
+    if (window.location.hash && document.querySelector(window.location.hash.replace(/[^#\w-]/g, ''))) startLock();
+    // First manual input ends the lock immediately (and cancels any pending smooth scroll in the browser)
+    ['wheel', 'touchstart', 'pointerdown'].forEach(function (t) { window.addEventListener(t, function (e) { if (navLock && !(e.target.closest && e.target.closest('a[href*="#"]'))) releaseLock(); }, { passive: true }); });
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') header.classList.remove('is-hidden');
+      if (navLock && ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' ', 'Spacebar'].indexOf(e.key) > -1) releaseLock();
+    });
     onHeaderScroll();
   }
 
