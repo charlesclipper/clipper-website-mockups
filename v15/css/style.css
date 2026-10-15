@@ -741,7 +741,9 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
    there is no end-of-block snap position that could pull the user back before the footer). The hero snaps to the top itself. */
 .snap-mark{display:block;height:0;margin:0;padding:0;overflow:hidden;pointer-events:none}
 @media (min-width:901px) and (prefers-reduced-motion:no-preference){
-  html:has(body.snap-page){scroll-snap-type:y proximity}
+  /* scroll-padding-bottom shrinks the snapport, and Chrome's proximity range is a third of the snapport height, so the
+     magnet only grabs scrolls that end within roughly 60-80px of a stop (a single 100px wheel notch is never pulled back). */
+  html:has(body.snap-page){scroll-snap-type:y proximity;scroll-padding-bottom:60vh}
   .snap-page .hero--charter,
   .snap-page .snap-mark{scroll-snap-align:start;scroll-snap-stop:normal}
   .snap-page .snap-mark--tour{scroll-margin-top:var(--s5)}
