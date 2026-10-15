@@ -962,3 +962,13 @@ body main>section.hero.hero.hero+section,.intro-section{padding-top:calc(var(--s
 .acc-section.facilities-section{padding-top:0}
 .team-section .team-group:first-child{margin-top:var(--s5)}
 @media (min-width:901px){.facilities-section .fleet-grid{grid-template-columns:minmax(0,1fr)}.facilities-section .fleet-grid .attr-carousel{width:min(100%,704px);margin:0 auto}}
+
+/* V21: icon + title on one row (AltitudeAccess Membership and How to join cards), equal card heights */
+.card-ih{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:var(--s4);align-items:center;align-content:start}
+.card-ih::before{grid-column:1/-1}
+.card-ih .icon{margin:0;grid-column:1;grid-row:2}
+.card-ih h3{grid-column:2;grid-row:2;margin:0}
+.card-ih p{grid-column:1/-1;margin-top:var(--s4)}
+.grid-3:has(> .card-ih){grid-auto-rows:1fr}
+.page-aa div:has(> .card-ih):not(.grid-3){grid-auto-rows:1fr}
+body .card-ih h3,body .card-ih .card-title{margin:0}
