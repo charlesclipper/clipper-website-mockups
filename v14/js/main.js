@@ -28,20 +28,20 @@
        (visible, stuck to the top). The lock clears on scrollend, when the scroll position has settled, after a hard
        cap, or on the first manual input (wheel, touch, scroll keys, pointer press). Clearing re-baselines lastY so
        only a later manual scroll down past the header height hides it again. */
-    var navLock = false, lockPoll = 0, lockCap = 0;
+    var navLock = false, lockPoll = 0, lockCap = 0, lockStart = 0;
     var releaseLock = function () {
       if (!navLock) return;
       navLock = false; window.clearInterval(lockPoll); window.clearTimeout(lockCap);
       lastY = Math.max(0, window.scrollY);
     };
     var startLock = function () {
-      navLock = true; header.classList.remove('is-hidden');
+      navLock = true; lockStart = Date.now(); header.classList.remove('is-hidden');
       window.clearInterval(lockPoll); window.clearTimeout(lockCap);
       var prev = -1, still = 0;
       lockPoll = window.setInterval(function () {
         var y = Math.round(window.scrollY);
         still = (y === prev) ? still + 1 : 0; prev = y;
-        if (still >= 4) releaseLock();            // unchanged for about 200ms (starts after the jump has begun)
+        if (still >= 4 && Date.now() - lockStart > 600) releaseLock();   // settled for about 200ms (and at least 600ms in)
       }, 50);
       lockCap = window.setTimeout(releaseLock, 3000);   // hard cap for very long smooth scrolls
     };
@@ -66,7 +66,9 @@
       if (a && samePageHash(a)) startLock();
     });
     window.addEventListener('hashchange', startLock);
-    if (window.location.hash && document.querySelector(window.location.hash.replace(/[^#\w-]/g, ''))) startLock();
+    var hashOnLoad = function () { if (window.location.hash && document.querySelector(window.location.hash.replace(/[^#\w-]/g, ''))) startLock(); };
+    hashOnLoad();
+    window.addEventListener('load', hashOnLoad);   // the browser's own jump to the hash can land after load (images, fonts)
     // First manual input ends the lock immediately (and cancels any pending smooth scroll in the browser)
     ['wheel', 'touchstart', 'pointerdown'].forEach(function (t) { window.addEventListener(t, function (e) { if (navLock && !(e.target.closest && e.target.closest('a[href*="#"]'))) releaseLock(); }, { passive: true }); });
     window.addEventListener('keydown', function (e) {
