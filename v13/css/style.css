@@ -646,7 +646,7 @@ body{padding-top:var(--header-h)}
    V13: larger, tighter card captions; Service cards sized like Fleet cards
    ===================================================================== */
 /* Caption: title with its italic description right beside it (same baseline), description 1.5x (14.5px -> 21.75px) */
-.fleet-grid .attr-body.has-desc{grid-template-columns:max-content minmax(0,1fr);column-gap:.9em;align-items:baseline}
+.fleet-grid .attr-body.has-desc{grid-template-columns:max-content minmax(0,1fr);column-gap:19px;align-items:baseline}
 .attr-desc{font-size:21.75px;line-height:1.35}
 .fleet-grid .attr-body .h3{white-space:nowrap}
 @media (max-width:900px){
@@ -712,3 +712,6 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 @media (max-width:900px){.footer-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6)}.footer-grid > :first-child{grid-column:1/-1}}
 @media (max-width:560px){.footer-grid{grid-template-columns:minmax(0,1fr)}}
 .footer-bottom{justify-content:flex-start}
+
+/* V13 verify fix: long single-word display headings (e.g. "AltitudeAccess") must fit at 360 */
+@media (max-width:420px){.h1{font-size:clamp(28px,8.6vw,38px)}}
