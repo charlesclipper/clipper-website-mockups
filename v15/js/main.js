@@ -88,6 +88,7 @@
       if (a && samePageHash(a)) startLock();
     });
     window.addEventListener('hashchange', startLock);
+    document.addEventListener('ca:nav-start', startLock);   // accordion expansion asks for the same lock
     var hashOnLoad = function () { if (window.location.hash && document.querySelector(window.location.hash.replace(/[^#\w-]/g, ''))) startLock(); };
     hashOnLoad();
     window.addEventListener('load', hashOnLoad);   // the browser's own jump to the hash can land after load (images, fonts)
@@ -179,6 +180,53 @@
     track.addEventListener('mousemove', function (e) { if (!down) return; e.preventDefault(); track.scrollLeft = startLeft - (e.pageX - startX); });
 
     update();
+
+    /* Auto-advance (Fleet, Service and Safety scrollers only): next card after 10s idle, looping to the first card.
+       Runs only while the scroller is in the viewport and its section is expanded. Any interaction restarts the 10s;
+       hover or focus inside pauses it. Off entirely under prefers-reduced-motion. A visible pause/play button (WCAG 2.2.2)
+       stops it for good until pressed again. The slide counter is only announced (polite) for user actions, never for auto-advance. */
+    if (root.classList.contains('attr-carousel')) (function () {
+      var IDLE = 10000, reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var timer = 0, hovering = false, focused = false, inView = false, userPaused = false, liveTimer = 0;
+      var ctr = root.querySelector('[data-counter]'), live = ctr && ctr.closest('[aria-live]');
+      var arrows = root.querySelector('.carousel-arrows');
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'carousel-pause'; btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-label', 'Pause automatic card advance'); btn.title = 'Pause automatic card advance';
+      btn.innerHTML = '<svg class="mq-ico mq-ico-pause" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"/></svg><svg class="mq-ico mq-ico-play" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg>';
+      if (arrows) arrows.appendChild(btn);
+      function expanded() { var pn = root.closest('.acc-panel'); return !pn || pn.classList.contains('is-open'); }
+      function canRun() { return !reduceMQ.matches && !userPaused && !hovering && !focused && inView && expanded() && !document.hidden; }
+      function schedule() { window.clearTimeout(timer); timer = 0; if (canRun()) timer = window.setTimeout(tick, IDLE); }
+      function tick() {
+        timer = 0;
+        if (!canRun()) return;
+        if (live) { live.setAttribute('aria-live', 'off'); window.clearTimeout(liveTimer); liveTimer = window.setTimeout(function () { live.setAttribute('aria-live', 'polite'); }, 1500); }
+        root.dataset.autoAdvanced = String((+root.dataset.autoAdvanced || 0) + 1);
+        step(1);
+        schedule();
+      }
+      // Interaction resets the idle timer
+      ['pointerdown', 'touchstart', 'keydown', 'wheel', 'click'].forEach(function (ev) { root.addEventListener(ev, schedule, { passive: true }); });
+      root.addEventListener('mouseenter', function () { hovering = true; schedule(); });
+      root.addEventListener('mouseleave', function () { hovering = false; schedule(); });
+      root.addEventListener('focusin', function (e) { focused = !!(e.target.matches && e.target.matches(':focus-visible')); schedule(); });   // keyboard focus pauses; a mouse click leaving focus on a button does not
+      root.addEventListener('focusout', function (e) { if (!e.relatedTarget || !root.contains(e.relatedTarget)) { focused = false; schedule(); } });
+      btn.addEventListener('click', function () {
+        userPaused = !userPaused;
+        btn.setAttribute('aria-pressed', String(userPaused));
+        var l = userPaused ? 'Play automatic card advance' : 'Pause automatic card advance';
+        btn.setAttribute('aria-label', l); btn.title = l;
+        schedule();
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { inView = en[0].isIntersecting; schedule(); }, { threshold: 0.4 }).observe(root);
+      } else { inView = true; }
+      document.addEventListener('ca:acc-change', schedule);
+      document.addEventListener('visibilitychange', schedule);
+      if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', schedule);
+      schedule();
+    })();
   });
 
 
@@ -214,6 +262,117 @@
     window.addEventListener('load', queue);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(queue);
     queue();
+  })();
+
+  /* 3b2. Charter page snap: with scroll-snap proximity and a shrunken snapport (see css), the browser's PageDown / Space step is
+         only about a quarter of the window. Give those keys a normal page-sized step instead (header-aware), without changing
+         anything while a form field, button, link or slider has focus. */
+  (function () {
+    if (!document.body.classList.contains('snap-page')) return;
+    var mqSnap = window.matchMedia('(min-width: 901px) and (prefers-reduced-motion: no-preference)');
+    document.addEventListener('keydown', function (e) {
+      if (!mqSnap.matches || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      var k = e.key, isSpace = (k === ' ' || k === 'Spacebar');
+      if (k !== 'PageDown' && k !== 'PageUp' && !isSpace) return;
+      var a = document.activeElement;
+      if (a && a !== document.body && a !== document.documentElement && /^(INPUT|TEXTAREA|SELECT|BUTTON|A|IFRAME|SUMMARY)$/.test(a.tagName)) return;
+      if (a && (a.isContentEditable || (a.getAttribute && a.getAttribute('role') === 'dialog') || (a.closest && a.closest('.attr-track')))) return;
+      if (document.body.style.overflow === 'hidden' || document.body.classList.contains('menu-open')) return;
+      var up = (k === 'PageUp') || (isSpace && e.shiftKey);
+      var hh = document.querySelector('.site-header') ? document.querySelector('.site-header').offsetHeight : 0;
+      var step = Math.max(200, window.innerHeight - hh - 48);
+      e.preventDefault();
+      window.scrollBy({ top: up ? -step : step, behavior: 'smooth' });
+    });
+  })();
+
+  /* 3c. Accordions: Fleet, Service and Safety are collapsed by default. Real buttons (aria-expanded, aria-controls);
+         the collapsed panel is inert (out of tab order and the accessibility tree) and animates with grid rows
+         (instant under prefers-reduced-motion). Intro boxes, header and footer links, and #fleet / #service / #safety
+         (or anything inside them) in the URL expand the matching section, then land on it once the animation ends. */
+  (function () {
+    var secs = Array.prototype.slice.call(document.querySelectorAll('[data-acc]'));
+    if (!secs.length) return;
+    var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function parts(sec) { return { btn: sec.querySelector('.acc-toggle'), panel: sec.querySelector('.acc-panel'), hint: sec.querySelector('[data-acc-hint]') }; }
+    function isOpen(sec) { return parts(sec).panel.classList.contains('is-open'); }
+    function setOpen(sec, open, done) {
+      var q = parts(sec), p = q.panel;
+      if (isOpen(sec) === open) { if (done) done(); return; }
+      q.btn.setAttribute('aria-expanded', String(open));
+      q.hint.textContent = open ? 'Click to collapse' : 'Click to expand';
+      p.classList.remove('is-settled');
+      if (open) { p.removeAttribute('inert'); p.classList.add('is-open'); }
+      else { p.setAttribute('inert', ''); p.classList.remove('is-open'); }
+      document.dispatchEvent(new CustomEvent('ca:acc-change', { detail: { id: sec.id, open: open } }));
+      var finished = false;
+      function fin(e) {
+        if (finished || (e && (e.target !== p || e.propertyName !== 'grid-template-rows'))) return;
+        finished = true; p.removeEventListener('transitionend', fin);
+        if (open) p.classList.add('is-settled');
+        document.dispatchEvent(new CustomEvent('ca:acc-change', { detail: { id: sec.id, open: open, settled: true } }));
+        if (done) done();
+      }
+      if (reduceMQ.matches) { fin(); return; }
+      p.addEventListener('transitionend', fin);
+      window.setTimeout(fin, 750);
+    }
+    function landOn(sec) {
+      // wait for any browser scroll to rest, then correct the position if the expansion moved the target
+      var last = -1, same = 0, n = 0;
+      var iv = window.setInterval(function () {
+        var y = Math.round(window.scrollY); same = (y === last) ? same + 1 : 0; last = y; n++;
+        if (same >= 3 || n > 40) {
+          window.clearInterval(iv);
+          var mt = (parseFloat(getComputedStyle(sec).scrollMarginTop) || 0) + (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0);
+          var want = Math.round(sec.getBoundingClientRect().top + window.scrollY - mt);
+          if (Math.abs(want - window.scrollY) > 2) window.scrollTo({ top: want, behavior: reduceMQ.matches ? 'auto' : 'smooth' });
+        }
+      }, 50);
+    }
+    function reveal(hash) {
+      var id = (hash || '').replace(/^#/, '');
+      if (!id) return false;
+      var el; try { el = document.getElementById(decodeURIComponent(id)); } catch (err) { return false; }
+      var sec = el && el.closest('[data-acc]');
+      if (!sec) return false;
+      document.dispatchEvent(new Event('ca:nav-start'));
+      setOpen(sec, true, function () { landOn(sec); });
+      return true;
+    }
+    secs.forEach(function (sec) {
+      var q = parts(sec);
+      q.btn.addEventListener('click', function () { setOpen(sec, !isOpen(sec)); });
+    });
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a) return;
+      try {
+        var u = new URL(a.href, window.location.href);
+        if (u.hash && u.origin === window.location.origin && u.pathname === window.location.pathname) reveal(u.hash);
+      } catch (err) { /* ignore */ }
+    });
+    window.addEventListener('hashchange', function () { reveal(window.location.hash); });
+    if (window.location.hash) reveal(window.location.hash);
+  })();
+
+  /* 3d. Partner logo marquee: seamless loop (the second set is aria-hidden and not focusable), pauses on hover and focus,
+         has a visible pause/play button (WCAG 2.2.2). CSS keeps it static under prefers-reduced-motion. About 55px per second,
+         matching the average pace of the current live site. */
+  (function () {
+    var mq = document.querySelector('[data-marquee]');
+    if (!mq) return;
+    var track = mq.querySelector('.marquee-track'), set = mq.querySelector('.marquee-set');
+    var btn = document.querySelector('[data-marquee-toggle]'), label = btn && btn.querySelector('[data-marquee-label]');
+    var SPEED = 55, raf = 0;
+    function size() { raf = 0; var w = set.getBoundingClientRect().width; if (w > 0) track.style.setProperty('--marquee-dur', (w / SPEED).toFixed(1) + 's'); }
+    function queue() { if (!raf) raf = window.requestAnimationFrame(size); }
+    window.addEventListener('resize', queue); window.addEventListener('load', queue); queue();
+    if (btn) btn.addEventListener('click', function () {
+      var paused = mq.classList.toggle('is-paused');
+      btn.setAttribute('aria-pressed', String(paused));
+      if (label) label.textContent = paused ? 'Play logos' : 'Pause logos';
+    });
   })();
 
   /* 4. Fade-in on scroll: add class "reveal" to any element */

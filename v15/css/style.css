@@ -748,3 +748,73 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
   .snap-page .snap-mark{scroll-snap-align:start;scroll-snap-stop:normal}
   .snap-page .snap-mark--tour{scroll-margin-top:var(--s5)}
 }
+
+/* =====================================================================
+   V15 additions (round 3): hero fade, accordions, partner marquee, scroller autoplay
+   ===================================================================== */
+/* ---- Hero: live-site photo, top scrim for the tagline, bottom fade to Paper (#F4F2EE, the colour of the intro section below) ---- */
+.hero--charter .hero-charter{object-position:50% 70%}
+.hero.hero--charter::after{background:radial-gradient(ellipse 62% 48% at 24% 26%,rgba(12,20,36,.52) 0%,rgba(12,20,36,.34) 55%,rgba(12,20,36,0) 100%),linear-gradient(180deg,
+  rgba(16,26,44,.62) 0%,rgba(16,26,44,.44) 20%,rgba(16,26,44,.18) 38%,rgba(16,26,44,0) 50%,
+  rgba(244,242,238,0) 52%,rgba(244,242,238,.55) 74%,rgba(244,242,238,.9) 92%,var(--paper) 100%)}
+.hero--charter .hero-tagline{text-shadow:0 1px 3px rgba(10,20,40,.55),0 0 28px rgba(10,20,40,.4)}
+@media (max-width:900px){
+  .hero--charter .hero-charter{object-position:58% 62%}
+  .hero.hero--charter::after{background:radial-gradient(ellipse 90% 40% at 40% 18%,rgba(12,20,36,.5) 0%,rgba(12,20,36,0) 100%),linear-gradient(180deg,rgba(16,26,44,.62) 0%,rgba(16,26,44,.42) 28%,rgba(16,26,44,.12) 48%,rgba(244,242,238,0) 54%,rgba(244,242,238,.6) 78%,var(--paper) 100%)}
+}
+
+/* ---- Accordions (Fleet, Service, Safety) ---- */
+.acc-section{padding:0;border-top:1px solid var(--line)}
+.acc-section.fleet-section{padding-top:0}
+.acc-head{margin:0;font:inherit}
+.acc-toggle{display:flex;align-items:center;justify-content:space-between;gap:var(--s5);width:100%;margin:0;padding:clamp(22px,2.6vw,40px) 0;background:transparent;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
+.acc-toggle .section-kicker{margin:0;transition:color .25s}
+.acc-hint{display:flex;align-items:center;gap:var(--s4);flex:0 0 auto;font-family:var(--font-body);font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--navy)}
+.acc-hint-text{opacity:.85}
+.acc-icon{position:relative;display:inline-block;width:40px;height:40px;border:1px solid var(--navy);border-radius:50%;flex:0 0 auto;transition:background .25s,border-color .25s}
+.acc-icon::before,.acc-icon::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:1.5px;background:var(--navy);transform:translate(-50%,-50%);transition:transform .35s,background .25s}
+.acc-icon::after{transform:translate(-50%,-50%) rotate(90deg)}
+.acc-toggle[aria-expanded="true"] .acc-icon::after{transform:translate(-50%,-50%) rotate(0)}
+.acc-toggle:hover .section-kicker{color:var(--copper)}
+.acc-toggle:hover .acc-icon{background:var(--navy)}
+.acc-toggle:hover .acc-icon::before,.acc-toggle:hover .acc-icon::after{background:#fff}
+.acc-toggle:focus-visible{outline:2px solid var(--copper);outline-offset:4px}
+.acc-panel{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1),visibility 0s linear .5s}
+.acc-panel.is-open{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.acc-inner{min-height:0;overflow:hidden;padding-bottom:0}
+.acc-panel.is-open.is-settled .acc-inner{overflow:visible}
+.acc-panel.is-open .acc-inner{padding-top:var(--s2);padding-bottom:var(--section-y)}
+.acc-panel .snap-mark{display:none}
+.acc-panel.is-open .snap-mark{display:block}
+@media (max-width:900px){.acc-hint-text{display:none}.acc-icon{width:36px;height:36px}}
+@media (prefers-reduced-motion:reduce){.acc-panel,.acc-panel.is-open{transition:none}.acc-icon::after{transition:none}}
+/* kicker inside the bar keeps the section's kicker size; collapsed bars sit as a clean fine-line rhythm */
+.acc-section .fleet-wrap > .acc-head + .acc-panel{margin-top:0}
+
+/* ---- Partner logo marquee (Charter final stop) ---- */
+.marquee{container-type:inline-size;overflow:hidden;width:100%}
+.marquee-track{display:flex;flex-wrap:nowrap;width:max-content;animation:marquee-x var(--marquee-dur,60s) linear infinite;will-change:transform}
+.marquee:hover .marquee-track,.marquee:focus-within .marquee-track,.marquee.is-paused .marquee-track{animation-play-state:paused}
+.partners-section .marquee .logos{flex:0 0 auto;flex-wrap:nowrap;justify-content:flex-start;align-items:center;gap:0 var(--logos-gap);padding-right:var(--logos-gap)}
+.partners-section .marquee .logos a{flex:0 0 calc((100cqw - (var(--logos-per-row) - 1) * var(--logos-gap)) / var(--logos-per-row))}
+@keyframes marquee-x{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.marquee-ctl{display:flex;justify-content:center;margin:clamp(14px,1.6vw,24px) 0 0}
+.marquee-toggle{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;background:transparent;border:1px solid var(--navy);color:var(--navy);font:600 12px/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .25s,color .25s}
+.marquee-toggle:hover{background:var(--navy);color:#fff}
+.marquee-toggle:focus-visible{outline:2px solid var(--copper);outline-offset:3px}
+.mq-ico{width:12px;height:12px;flex:0 0 auto}
+.marquee-toggle .mq-ico-play,.marquee-toggle[aria-pressed="true"] .mq-ico-pause{display:none}
+.marquee-toggle[aria-pressed="true"] .mq-ico-play{display:block}
+@media (prefers-reduced-motion:reduce){
+  .marquee{overflow:visible}
+  .marquee-track{animation:none;width:100%;display:block;will-change:auto}
+  .marquee-set[data-dup],.marquee-ctl{display:none}
+  .partners-section .marquee .logos{flex-wrap:wrap;justify-content:center;gap:var(--s6) var(--logos-gap);padding-right:0}
+}
+
+/* ---- Scroller autoplay pause/play (Fleet, Service, Safety) ---- */
+.attr-controls .carousel-arrows .carousel-pause{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;padding:0;font-size:0}
+.carousel-pause .mq-ico{width:12px;height:12px}
+.carousel-pause .mq-ico-play,.carousel-pause[aria-pressed="true"] .mq-ico-pause{display:none}
+.carousel-pause[aria-pressed="true"] .mq-ico-play{display:block}
+@media (prefers-reduced-motion:reduce){.carousel-pause{display:none!important}}
