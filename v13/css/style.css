@@ -715,3 +715,6 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 
 /* V13 verify fix: long single-word display headings (e.g. "AltitudeAccess") must fit at 360 */
 @media (max-width:420px){.h1{font-size:clamp(28px,8.6vw,38px)}}
+
+/* V13: Service heading wraps in balanced lines (no single-word widow) */
+#service-title{text-wrap:balance}
