@@ -875,3 +875,4 @@ body.modal-open .site-header{transform:none;padding-right:var(--sbw,0)}
 @media (max-width:600px){.hero--aa .display{font-size:clamp(30px,8.4vw,34px);letter-spacing:.06em}}
 .hero--aa::after{background:linear-gradient(180deg,rgba(20,28,40,.38) 0%,rgba(20,28,40,0) 28%,rgba(20,28,40,.30) 48%,rgba(20,28,40,.72) 100%)}
 .hero--aa .display{text-shadow:0 1px 18px rgba(10,16,26,.45)}
+@media (max-width:480px){.aa-intro-title{font-size:clamp(24px,7vw,28px)}}
