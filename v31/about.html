@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About · Clipper Aviation · Mockup V31</title>
+<meta name="description" content="About Clipper Aviation: a client-centric aviation company at Van Nuys Airport.">
+<link rel="icon" href="images/ca-monogram-white.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- ============ HEADER ============
+     LOGO PLACEHOLDER: existing site SVG (Clipper-Aviationj-Logo.svg) recolored black. V2: header is always solid white.
+     White version shows over photo heroes, navy version once the header turns solid.
+     Replace with the final white-on-black / black-on-white logo files when supplied. -->
+<header class="site-header is-solid">
+  <div class="container">
+    <a class="logo" href="index.html" aria-label="Clipper Aviation: Home">
+      
+      <img class="logo-black" src="images/logo-black.svg" alt="Clipper Aviation">
+    </a>
+    <nav aria-label="Main"><ul class="nav"><li class="has-dropdown"><a class="nav-link" href="charter.html">Charter</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-charter" aria-label="Charter submenu"><span class="caret" aria-hidden="true"></span></button><ul class="dropdown" id="dd-charter"><li><a href="charter.html#fleet">Fleet</a></li><li><a href="charter.html#service">Service</a></li><li><a href="charter.html#safety">Safety</a></li></ul></li><li class="has-dropdown"><a class="nav-link" href="altitudeaccess.html">AltitudeAccess</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-altitudeaccess" aria-label="AltitudeAccess submenu"><span class="caret" aria-hidden="true"></span></button><ul class="dropdown" id="dd-altitudeaccess"><li><a href="altitudeaccess.html#program-structure">Program</a></li><li><a href="altitudeaccess.html#signature-trips">Trips</a></li><li><a href="altitudeaccess.html#membership">Membership</a></li></ul></li><li><a class="nav-link" href="maintenance.html">Maintenance</a></li><li class="has-dropdown"><a class="nav-link" href="about.html" aria-current="page">About</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-about" aria-label="About submenu"><span class="caret" aria-hidden="true"></span></button><ul class="dropdown" id="dd-about"><li><a href="about.html#team">Team</a></li><li><a href="about.html#facilities">Facilities</a></li></ul></li></ul></nav>
+    <div class="header-cta">
+      <a class="header-phone" href="tel:+18554635999">+1 (855) 463-5999</a>
+      <button class="btn btn-primary" type="button" data-quote-open aria-haspopup="dialog">Request a Quote</button>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-open><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" role="dialog" aria-label="Menu">
+  <button class="mobile-close" type="button" aria-label="Close menu" data-menu-close>&times;</button>
+  <a class="m-main" href="charter.html">Charter</a><div class="m-sub"><a href="charter.html#fleet">Fleet</a><a href="charter.html#service">Service</a><a href="charter.html#safety">Safety</a></div><a class="m-main" href="altitudeaccess.html">AltitudeAccess</a><div class="m-sub"><a href="altitudeaccess.html#program-structure">Program</a><a href="altitudeaccess.html#signature-trips">Trips</a><a href="altitudeaccess.html#membership">Membership</a></div><a class="m-main" href="maintenance.html">Maintenance</a><a class="m-main" href="about.html">About</a><div class="m-sub"><a href="about.html#team">Team</a><a href="about.html#facilities">Facilities</a></div>
+  <button class="btn btn-primary" type="button" data-quote-open aria-haspopup="dialog">Request a Quote</button>
+  <a class="small" href="tel:+18554635999">+1 (855) 463-5999</a>
+</div>
+<div class="mockup-badge" aria-hidden="true">Mockup V31</div>
+
+<main class="page-about">
+<section class="hero hero--about">
+  <img class="hero-bg" src="images/aa-hangar-fleet.jpg" alt="Clipper Aviation hangars and fleet at Van Nuys">
+  <span class="hero-fade" aria-hidden="true"></span>
+  <div class="container on-photo">
+    <h1 class="display">Delivering Value <br>to Clients &amp; Partners.</h1>
+  </div>
+</section>
+
+<!-- Copy from the current About page; flight-training paragraph omitted per direction (no Training on the new site). -->
+<section class="section bg-paper">
+  <div class="container">
+    <div class="about-story reveal">
+      <h2 class="h1">Our <br>Story</h2>
+      <p>Based at Los Angeles' iconic Van Nuys Airport, Clipper Aviation is guided by an unwavering commitment to delivering safety, operational excellence and superior service. We are a dedicated and client-centric organization.</p>
+      <p>Our private charter division is defined by the care, dedication and expertise of our people, who bring extensive operational knowledge rooted in decades of industry experience. Leveraging highly trained pilots, technicians and support staff, we ensure every journey reflects the highest standards of safety, reliability and personalized service.</p>
+      <p>Clipper Maintenance prioritizes delivering to our clients deep technical expertise, a safety-above-all-else mindset and commitment to meeting promised turnaround times. By leveraging a highly experienced team and offering specialized services including pitot-static and transponder testing, we ensure aircraft are consistently maintained to the highest standards of airworthiness and readiness.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-white fleet-section acc-section team-section" id="team" data-acc>
+  <div class="fleet-wrap">
+    <h2 class="acc-head"><button type="button" class="acc-toggle" id="team-toggle" aria-expanded="false" aria-controls="team-panel"><span class="section-kicker">Team</span><span class="acc-hint" aria-hidden="true"><span class="acc-hint-text" data-acc-hint>Click to expand</span><span class="acc-icon"></span></span></button></h2>
+    <div class="acc-panel" id="team-panel" role="region" aria-labelledby="team-toggle" inert><div class="acc-inner">
+    <!-- PLACEHOLDER: monogram tiles stand in for team portraits (not retrieved from the current site). -->
+    <div class="team-group"><h3 class="h1 team-group-title">Charter - Part 135</h3><div class="team"><div class="member reveal"><div class="avatar">BF</div><p class="name">Bryan Ferrell</p><p class="role">Chief Pilot</p></div><div class="member reveal"><div class="avatar">MS</div><p class="name">Marco Soriaga</p><p class="role">Assistant Chief Pilot</p></div><div class="member reveal"><div class="avatar">MB</div><p class="name">Mark Boss</p><p class="role">Director of Operations</p></div><div class="member reveal"><div class="avatar">JM</div><p class="name">Javier Malvaez</p><p class="role">Director of Maintenance</p></div><div class="member reveal"><div class="avatar">ZD</div><p class="name">Zayne Dietterick</p><p class="role">Charter Sales Manager</p></div><div class="member reveal"><div class="avatar">AG</div><p class="name">Alex Garcia</p><p class="role">Charter Pilot</p></div><div class="member reveal"><div class="avatar">RM</div><p class="name">Riese McClellan</p><p class="role">Charter Pilot</p></div><div class="member reveal"><div class="avatar">CV</div><p class="name">Craig VanderZwaag</p><p class="role">Charter Pilot</p></div><div class="member reveal"><div class="avatar">GC</div><p class="name">Giancarlo Chico</p><p class="role">Charter Pilot</p></div></div></div><div class="team-group"><h3 class="h1 team-group-title">Maintenance - Part 145</h3><div class="team"><div class="member reveal"><div class="avatar">NM</div><p class="name">Nick Martin</p><p class="role">Director of Maintenance</p></div><div class="member reveal"><div class="avatar">JJ</div><p class="name">Jennifer Jacobson</p><p class="role">Parts Manager</p></div><div class="member reveal"><div class="avatar">KE</div><p class="name">Katie Elliott</p><p class="role">Customer Service Manager</p></div><div class="member reveal"><div class="avatar">MB</div><p class="name">Marina Bermudez</p><p class="role">Service Coordinator</p></div><div class="member reveal"><div class="avatar">CH</div><p class="name">Cesar Herrera</p><p class="role">Senior Technician</p></div><div class="member reveal"><div class="avatar">HJ</div><p class="name">Henrik Jahn</p><p class="role">Senior Technician</p></div><div class="member reveal"><div class="avatar">MM</div><p class="name">Matthew Melgar</p><p class="role">Technician</p></div><div class="member reveal"><div class="avatar">JM</div><p class="name">Jeremiah Meador</p><p class="role">Technician</p></div><div class="member reveal"><div class="avatar">PM</div><p class="name">Phillip Mejia</p><p class="role">Technician</p></div><div class="member reveal"><div class="avatar">TP</div><p class="name">Ty Palmer</p><p class="role">Aircraft Cleaning &amp; Detailing</p></div><div class="member reveal"><div class="avatar">RM</div><p class="name">Ruben Magana</p><p class="role">Line Service Technician</p></div><div class="member reveal"><div class="avatar">EP</div><p class="name">Enrique Pereira</p><p class="role">Line Service Technician</p></div></div></div><div class="team-group"><h3 class="h1 team-group-title">Administrative</h3><div class="team"><div class="member reveal"><div class="avatar">EY</div><p class="name">Emma Young</p><p class="role">Operations Manager</p></div><div class="member reveal"><div class="avatar">MS</div><p class="name">Mariana Soliman</p><p class="role">Finance Associate</p></div><div class="member reveal"><div class="avatar">JR</div><p class="name">James Raffini</p><p class="role">Founder &amp; President</p></div><div class="member reveal"><div class="avatar">CR</div><p class="name">Charles Raffini</p><p class="role">Founder &amp; President</p></div></div></div>
+    </div></div><!-- /acc-panel -->
+  </div>
+</section>
+
+<section class="section bg-sand fleet-section facilities-section acc-section" id="facilities" data-acc>
+  <div class="fleet-wrap">
+    <h2 class="acc-head"><button type="button" class="acc-toggle" id="facilities-toggle" aria-expanded="false" aria-controls="facilities-panel"><span class="section-kicker">Facilities</span><span class="acc-hint" aria-hidden="true"><span class="acc-hint-text" data-acc-hint>Click to expand</span><span class="acc-icon"></span></span></button></h2>
+    <div class="acc-panel" id="facilities-panel" role="region" aria-labelledby="facilities-toggle" inert><div class="acc-inner">
+    <div class="fleet-grid">
+      <div class="fleet-text facilities-text reveal">
+        <p>Private aviation services provider participating across charter and maintenance.</p>
+        <p>Multi-hangar facility footprint (combined 30,000 sq. ft.) at Van Nuys Airport.</p>
+        <p class="label copper fac-label">Charter:</p>
+        <ul class="checklist fac-list">
+          <li>Pt. 135 Operator (VNY FSDO), also offering Pt. 91 Aircraft Management services</li>
+          <li>Single-type fleet of Beechcraft King Air 350 aircraft</li>
+          <li>ARGUS-vetted for operational excellence and safety</li>
+          <li>Approved supplemental lift provider for multiple nationwide / global charter brokers and operators</li>
+          <li>Serving United States, Canada and Mexico</li>
+          <li>FSA / GSA contractor approved, with experience supporting public sector clients across a wide variety of client needs and mission profiles</li>
+        </ul>
+        <p class="label copper fac-label">Maintenance:</p>
+        <ul class="checklist fac-list">
+          <li>Pt. 145 Repair Station (VNY FSDO)</li>
+          <li>Jet, Turboprop and Piston all supported - refer to OpSpecs on website for specific Make / Model coverage</li>
+          <li>Partner to major general aviation OEMs, including Textron, Piper, Cirrus, Epic, Williams, Continental, Garmin, Avidyne, Raisbeck, Goodrich</li>
+          <li>Full-service capability, including 24/7 remote AOG and 91.411 / 91.413 support</li>
+        </ul>
+      </div>
+      <!-- Same scroller component, CSS and JS as the Charter page scrollers (Fleet, Service, Safety). -->
+      <div class="carousel attr-carousel reveal" data-carousel role="region" aria-roledescription="carousel" aria-label="Clipper facilities">
+        <ul class="carousel-track attr-track" tabindex="0" aria-label="Clipper facilities, use arrow keys to scroll">
+        <li class="attr-card" role="group" aria-roledescription="slide" aria-label="1 of 3: Reception">
+          <div class="attr-img"><img src="images/About-Us-Facilities-Scroll-2.webp" alt="Clipper reception and pilot briefing facilities" loading="lazy" draggable="false"></div>
+          <div class="attr-body has-desc"><h3 class="h3">Reception</h3><p class="attr-desc">Pilot briefing facilities</p></div>
+        </li>
+        <li class="attr-card" role="group" aria-roledescription="slide" aria-label="2 of 3: Ramp">
+          <div class="attr-img"><img src="images/About-Us-Facilities-Scroll-3.webp" alt="Clipper ramp and hangars at Van Nuys" loading="lazy" draggable="false"></div>
+          <div class="attr-body has-desc"><h3 class="h3">Ramp</h3><p class="attr-desc">Multi-hangar aircraft storage</p></div>
+        </li>
+        <li class="attr-card" role="group" aria-roledescription="slide" aria-label="3 of 3: Amenities">
+          <div class="attr-img"><img src="images/Main-Home-Page_Edited-scaled.webp" alt="Clipper aircraft at Van Nuys" loading="lazy" draggable="false"></div>
+          <div class="attr-body has-desc"><h3 class="h3">Amenities</h3><p class="attr-desc">Stocked pantry between flights</p></div>
+        </li>
+        </ul>
+        <div class="attr-controls"><div class="carousel-arrows"><button type="button" data-prev aria-label="Previous facilities card">&larr;</button><p class="carousel-counter" aria-live="polite"><span class="visually-hidden">Facilities card </span><span data-counter>1 / 3</span></p><button type="button" data-next aria-label="Next facilities card">&rarr;</button></div><div class="carousel-dots" aria-label="Choose facilities card"></div></div>
+      </div>
+    </div>
+    </div></div><!-- /acc-panel -->
+  </div>
+</section>
+
+<!-- ============ INDUSTRY PARTNERS (shared partial: scrolling logo marquee) ============ -->
+<section class="section bg-paper partners-section" id="industry-partners">
+  <div class="container"><p class="label center partners-title" style="text-align:center;margin-bottom:var(--s7)">Industry partners</p><div class="marquee" data-marquee role="group" aria-label="Industry partners, scrolling logos"><div class="marquee-track"><div class="logos marquee-set"><a href="https://txtav.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/textron_logo_navy.png" alt="Textron Aviation" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.piper.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/piper_logo_navy.png" alt="Piper" width="595" height="207" loading="eager" decoding="async"></a><a href="https://epicaircraft.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/epic_logo_navy.png" alt="Epic Aircraft" width="595" height="207" loading="eager" decoding="async"></a><a href="https://cirrusaircraft.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/cirrus_logo_navy.png" alt="Cirrus" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.williams-int.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/williams_logo_navy.png" alt="Williams International" width="569" height="207" loading="eager" decoding="async"></a><a href="https://continental.aero" target="_blank" rel="noopener"><img class="mq-logo" src="images/continental_logo_navy.png" alt="Continental" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.garmin.com/en-US/" target="_blank" rel="noopener"><img class="mq-logo" src="images/garmin_logo_navy.png" alt="Garmin" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.prattwhitney.com/en" target="_blank" rel="noopener"><img class="mq-logo" src="images/prattandwhitney_logo_navy.png" alt="Pratt & Whitney" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.campsystems.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/camp_logo_navy.png" alt="CAMP Systems" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.savvyaviation.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/savvy_logo_navy.png" alt="Savvy Aviation" width="595" height="207" loading="eager" decoding="async"></a><a href="https://crewchiefs.com" target="_blank" rel="noopener"><img class="mq-logo" src="images/crewchiefs_logo_navy.png" alt="Crew Chiefs" width="595" height="207" loading="eager" decoding="async"></a></div><div class="logos marquee-set" aria-hidden="true" data-dup><a href="https://txtav.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/textron_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.piper.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/piper_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://epicaircraft.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/epic_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://cirrusaircraft.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/cirrus_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.williams-int.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/williams_logo_navy.png" alt="" width="569" height="207" loading="eager" decoding="async"></a><a href="https://continental.aero" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/continental_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.garmin.com/en-US/" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/garmin_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.prattwhitney.com/en" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/prattandwhitney_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.campsystems.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/camp_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://www.savvyaviation.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/savvy_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a><a href="https://crewchiefs.com" target="_blank" rel="noopener" tabindex="-1"><img class="mq-logo" src="images/crewchiefs_logo_navy.png" alt="" width="595" height="207" loading="eager" decoding="async"></a></div></div></div><p class="marquee-ctl"><button type="button" class="marquee-toggle" data-marquee-toggle aria-pressed="false"><svg class="mq-ico mq-ico-pause" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"/></svg><svg class="mq-ico mq-ico-play" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span data-marquee-label>Pause logos</span></button></p></div>
+</section>
+</main>
+
+<!-- ============ FOOTER (light) ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <!-- LOGO PLACEHOLDER (navy recolor of existing SVG) -->
+        <a class="footer-logo-link" href="index.html" aria-label="Clipper Aviation: Home"><img class="footer-logo" src="images/ca-monogram-navy.svg" alt="Clipper Aviation" width="152" height="95"></a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+18554635999">+1 (855) 463-5999</a></li>
+          <li><a href="mailto:info@clipperaviation.com">info@clipperaviation.com</a></li>
+          <li>7900 Balboa Blvd.<br>Van Nuys, CA 91406</li>
+        </ul>
+      </div>
+      <div>
+        <h4><a href="charter.html">Charter</a></h4>
+        <ul><li><a href="charter.html#fleet">Fleet</a></li><li><a href="charter.html#service">Service</a></li><li><a href="charter.html#safety">Safety</a></li></ul>
+      </div>
+      <div>
+        <h4><a href="altitudeaccess.html">AltitudeAccess</a></h4>
+        <ul><li><a href="altitudeaccess.html#program-structure">Program</a></li><li><a href="altitudeaccess.html#signature-trips">Trips</a></li><li><a href="altitudeaccess.html#membership">Membership</a></li></ul>
+      </div>
+      <div>
+        <h4><a href="maintenance.html">Maintenance</a></h4>
+        <ul><li><a href="maintenance.html#capabilities">Capabilities</a></li><li><a href="maintenance.html#certificates">Certificates</a></li><li><a href="maintenance.html#contact">Service</a></li></ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li><a href="about.html">About</a></li><li><a href="about.html#team">Team</a></li><li><a href="https://clipperaviation.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></li></ul>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <ul><li><a href="https://www.instagram.com/clipper.aviation/" target="_blank" rel="noopener">Instagram</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 All rights reserved. Clipper Aviation</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ QUOTE REQUEST MODAL (front-end only; opened by any [data-quote-open]) ============ -->
+<div class="quote-modal" id="quote-modal" hidden>
+  <div class="quote-backdrop" data-quote-close></div>
+  <div class="quote-dialog" role="dialog" aria-modal="true" aria-labelledby="quote-title">
+    <button class="quote-close" type="button" data-quote-close aria-label="Close request a quote form">&times;</button>
+    <div class="split text-wide" style="align-items:start">
+      <div>
+        <h2 class="h1" id="quote-title">At your service</h2>
+        <p class="subtitle">It would be our pleasure to support your travel.</p>
+        <p class="quote-lines">Please tell us about your plans and our team will<br class="br-wide"> respond immediately with availability and pricing.</p>
+        <p class="small quote-talk" style="margin-top:var(--s6)">Prefer to talk?<br><a class="arrow-link" href="tel:+18554635999">+1 (855) 463-5999</a></p>
+      </div>
+      <div>
+        <!-- MOCKUP ONLY: nothing is submitted. Developer: wire to CRM / email (e.g. info@clipperaviation.com). -->
+        <form class="form" data-mock-form novalidate>
+          <div class="field full"><div class="segmented" role="radiogroup" aria-label="Trip type">
+            <label><input type="radio" name="trip-type" value="round-trip" checked><span>Round trip</span></label>
+            <label><input type="radio" name="trip-type" value="one-way"><span>One way</span></label>
+            <label><input type="radio" name="trip-type" value="multi-leg"><span>Multi-leg</span></label></div></div>
+          <div class="field"><label for="q-from">From</label><input id="q-from" required placeholder="Van Nuys (KVNY)"></div>
+          <div class="field"><label for="q-to">To</label><input id="q-to" required placeholder="City or airport"></div>
+          <div class="field"><label for="q-date">Departure date</label><input id="q-date" type="date" required></div>
+          <div class="field" data-return-date><label for="q-ret">Return date</label><input id="q-ret" type="date"></div>
+          <div class="field"><label for="q-pax">Passengers</label><select id="q-pax"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
+          <div class="field"><label for="q-pets">Travelling with pets?</label><select id="q-pets"><option>No</option><option>Yes</option></select></div>
+          <div class="field"><label for="q-name">Full name</label><input id="q-name" required autocomplete="name"></div>
+          <div class="field"><label for="q-email">Email</label><input id="q-email" type="email" required autocomplete="email"></div>
+          <div class="field"><label for="q-phone">Phone</label><input id="q-phone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="q-interest">Interested in</label><select id="q-interest"><option>Single trip</option><option>AltitudeAccess membership</option></select></div>
+          <div class="field full"><label for="q-notes">Notes (catering, ground transport, special requests)</label><textarea id="q-notes"></textarea></div>
+          <div class="full"><button class="btn btn-primary" type="submit">Request a Quote</button> <span class="form-note">&nbsp; Mockup: this form does not send.</span></div>
+        </form>
+        <div class="form-success" role="status" tabindex="-1"><p class="label copper">Thank you</p><p class="h3">Your request has been received.</p><p>A member of our charter team will be in touch shortly. (Mockup: no data was sent.)</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>
