@@ -2017,3 +2017,10 @@ body{--acc-bar:calc(2 * clamp(22px,2.6vw,40px) + 1.2 * clamp(1.755rem,4.032vw,3.
 /* last area of each page into the White footer (About also: Facilities White into the Paper partners band above it) */
 body:has(#fleet-panel) #industry-partners,body:has(#program-structure) #industry-partners,body:has(#team) #industry-partners{background:linear-gradient(0deg,#FFFFFF 0,rgba(255,255,255,0) 72px),var(--paper)}
 body:has(#team) #industry-partners{background:linear-gradient(180deg,#FFFFFF 0,rgba(255,255,255,0) 72px),linear-gradient(0deg,#FFFFFF 0,rgba(255,255,255,0) 72px),var(--paper)}
+
+/* V38 change 8 + 9: Industry partners logo scroll, two optical alignments. Percentages are of each logo's own height, so the nudge scales with the logo (47.9px tall at 1440, 28px at 390).
+   AEA: the image file is not padded unevenly (its artwork box is centred in the 595x207 frame, centre 103 of 103.5), but the wordmark is the heavy part and sits low in that box
+   (letters centre at y=127 of 207, the wing mark is above it), so next to the other wordmarks it looks lower. Raised 5% (about 2.4px at 1440): measured on the 1440 render its ink centre was 47.0 against 43.8 to 44.4 for NBAA, Avidyne and Argus, now 45.2.
+   Raisbeck: moved down 3% (about 1.4px at 1440). */
+.marquee .logos img.mq-logo[src*="aea_logo"]{transform:translateY(-5%)}
+.marquee .logos img.mq-logo[src*="raisbeck_logo"]{transform:translateY(3%)}
