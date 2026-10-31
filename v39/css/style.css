@@ -2050,3 +2050,27 @@ body main>section.hero.hero.hero--charter.hero--charter-dusk{--focus:40% 36%}
   body:not(.menu-open):not(.modal-open) .site-header.is-hidden:not(:has(:focus-visible)) .header-cta .btn:hover{transform:translateY(calc(var(--header-h) - 1px))}
 }
 @media (prefers-reduced-motion:reduce){.site-header .header-cta .btn{transition:none}}
+
+/* V39 change 22: small floating "Request a Quote" button, 1060px and below only (where the header has no quote button; it is also in the mobile menu).
+   Bottom right, not top right: the top right is the menu toggle, which stays visible while the header is showing. Same look as the desktop button
+   (white, navy hairline, navy text, same shadow as the pinned desktop button) in a compact pill, 44px tall. Safe-area insets are respected through env().
+   Hidden (faded, not focusable) while the mobile menu or the quote popup is open, and while the footer or a Turnstile widget is on screen (body.fab-away, set in main.js). */
+.fab-quote{display:none}
+@media (max-width:1060px){
+  .fab-quote{display:inline-flex;align-items:center;justify-content:center;position:fixed;z-index:45;
+    right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+    min-height:44px;padding:0 20px;border-radius:999px;background:var(--white);color:var(--navy);border:1px solid var(--navy);
+    font:600 0.6875rem/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;cursor:pointer;
+    box-shadow:0 2px 12px rgba(14,26,43,.32);-webkit-tap-highlight-color:transparent;
+    opacity:1;visibility:visible;transition:opacity .2s var(--ease),visibility 0s,background .2s,transform .2s var(--ease)}
+  .fab-quote:hover{background:var(--paper)}
+  .fab-quote:focus-visible{outline:2px solid var(--copper-text);outline-offset:3px}
+  .fab-quote:active{transform:scale(.97)}
+  body.menu-open .fab-quote,body.modal-open .fab-quote,body.fab-away .fab-quote{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s var(--ease),visibility 0s .2s}
+}
+@media (prefers-reduced-motion:reduce){.fab-quote{transition:none!important}}
+
+/* V39 change 23: new About hero photo (kingair_desert_v10B_hires, 2:1). The aircraft fills more of the frame than the old 16:9 photo, so the focal point is set here.
+   Desktop: crop is vertical only, y 60% lifts the aircraft a little clear of the bottom fade (headline stays above the tail). Mobile (under 900px) the crop is horizontal: x 22% keeps the nose, props and tail fin inside the frame. Specificity matches the V20 hero --focus rule. */
+body main>section.hero.hero.hero--about{--focus:50% 60%}
+@media (max-width:900px){body main>section.hero.hero.hero--about{--focus:22% 55%}}

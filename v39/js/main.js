@@ -670,3 +670,17 @@
   });
   footer.classList.add('f-ready');
 })();
+
+/* V39 change 22: the floating Request a Quote button (.fab-quote, 1060px and below) steps aside while the footer or a Turnstile widget is on
+   screen, so it never covers them. The menu and the quote popup are handled in CSS (body.menu-open, body.modal-open). */
+(function () {
+  'use strict';
+  var fab = document.querySelector('.fab-quote');
+  if (!fab || !('IntersectionObserver' in window)) return;
+  var seen = new Set();
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) seen.add(e.target); else seen.delete(e.target); });
+    document.body.classList.toggle('fab-away', seen.size > 0);
+  }, { threshold: 0 });
+  document.querySelectorAll('footer, .ts-wrap').forEach(function (n) { io.observe(n); });
+})();
