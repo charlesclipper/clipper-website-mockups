@@ -1428,7 +1428,7 @@ body .card-ih h3,body .card-ih .card-title{margin:0}
 /* V28 change 14: the trip map "View as list" button now sits under the map (in the markup between the map view and the list view: map, then button, then the list when shown), centred, with
    the same button style, aria-pressed behaviour and 44px height. 24px above and below it (it was above the map, right aligned, 16px below). In list view the map is hidden, so the button sits at the top of the list. */
 .trip-bar{justify-content:center;margin:var(--s5) 0}
-/* V28 change 15: the Trips intro caption is one line, "Approximate flight times from Van Nuys. Hover over a destination to see its flight time." (V27: "...as listed in the program brochure." plus a second line above the map).
+/* V28 change 15: the Trips intro caption is one line, "Approximate flight times from Los Angeles. Hover over a destination to see its flight time." (V27: "...as listed in the program brochure." plus a second line above the map).
    The old map hint ("Hover, focus or tap a destination to see its flight time from Van Nuys.") keeps its text and its hidden/show logic in tripmap.js (shown once JS runs) but is now visually hidden,
    so keyboard and touch users still get the instruction. Map keyboard, hover and tap behaviour untouched. */
 /* V28 change 20: Membership head to the cards: 64px (the .section-head margin) to the standard --section-gap (44.8px). */
