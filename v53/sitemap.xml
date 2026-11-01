@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MOCKUP COPY. This file belongs at the production root: https://clipperaviation.com/sitemap.xml
+     The URLs are the production page paths (not the mockup file names). Add lastmod only if it can be kept accurate. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://clipperaviation.com/</loc>
+  </url>
+  <url>
+    <loc>https://clipperaviation.com/charter/</loc>
+  </url>
+  <url>
+    <loc>https://clipperaviation.com/altitudeaccess/</loc>
+  </url>
+  <url>
+    <loc>https://clipperaviation.com/maintenance/</loc>
+  </url>
+  <url>
+    <loc>https://clipperaviation.com/about-us/</loc>
+  </url>
+</urlset>
