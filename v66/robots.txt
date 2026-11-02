@@ -1,0 +1,33 @@
+# MOCKUP COPY. This file belongs at the production root: https://clipperaviation.com/robots.txt
+# It is not used from the /v66/ mockup folder. The mockup pages themselves carry noindex,nofollow until launch.
+
+# Everyone is welcome by default
+User-agent: *
+Allow: /
+
+# Search and retrieval bots: keep these able to read the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+# ===== AI TRAINING BOTS (Charles decided: ALLOWED) =====
+# To block training use, change the ONE rule line below from "Allow: /" to "Disallow: /". Nothing else needs editing.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: CCBot
+Allow: /
+# ===== END AI TRAINING BOTS =====
+
+Sitemap: https://clipperaviation.com/sitemap.xml
