@@ -1,0 +1,47 @@
+{
+	admin off
+	persist_config off
+	auto_https off
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+:{$PORT:80} {
+	root * .
+	encode gzip zstd
+	header {
+		X-Content-Type-Options nosniff
+		-Server
+	}
+	route {
+		handle /health {
+			respond 200
+		}
+		handle /Caddyfile* {
+			respond 404
+		}
+		handle /tools* {
+			respond 404
+		}
+		handle /docs* {
+			respond 404
+		}
+		handle /.git* {
+			respond 404
+		}
+		@noslashquery {
+			not path */
+			file {path}/index.html
+			expression {http.request.uri.query} != ""
+		}
+		redir @noslashquery "{http.request.uri.path}/?{http.request.uri.query}" 301
+		@noslash {
+			not path */
+			file {path}/index.html
+		}
+		redir @noslash {http.request.uri.path}/ 301
+		try_files {path} {path}.html {path}/index.html
+		file_server
+	}
+}
