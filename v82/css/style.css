@@ -49,8 +49,8 @@ html.js-nav .has-dropdown > .dropdown{transition:none}
 
 /* V82. Client Login takes the original header and phone quote slots, at the same size.
    Request a Quote is the same button, placed just below the header, and stays there when the bar hides. */
-.header-cta a.header-login,
-a.fab-quote{position:relative;text-decoration:none}
+.header-cta a.header-login{position:relative;text-decoration:none}
+a.fab-quote{text-decoration:none}
 .header-cta a.header-login .btn-sizer,
 a.fab-quote .btn-sizer{visibility:hidden;white-space:nowrap}
 .header-cta a.header-login .btn-label,

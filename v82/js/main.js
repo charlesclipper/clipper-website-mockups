@@ -700,7 +700,7 @@
     var modal = document.getElementById('quote-modal');
     if (!modal) return;
     var dialog = modal.querySelector('.quote-dialog'), trigger = null;
-    var inertTargets = function () { return Array.prototype.slice.call(document.querySelectorAll('main, footer, .site-header, .mobile-menu, .mockup-badge')); };
+    var inertTargets = function () { return Array.prototype.slice.call(document.querySelectorAll('main, footer, .site-header, .mobile-menu, .mockup-badge, .cookie-notice')); };
     function focusables() {
       return Array.prototype.filter.call(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'),
         function (n) { return n.offsetParent !== null || n === document.activeElement; });
@@ -829,6 +829,19 @@
   document.addEventListener('pointerup', function (e) {
     if (e.target.closest && e.target.closest('.nav > li.has-dropdown')) return;
     closeAll(null);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var open = items.filter(function (li) { return li.classList.contains('is-open'); });
+    if (!open.length) return;
+    var inside = null;
+    open.forEach(function (li) { if (li.contains(document.activeElement)) inside = li; });
+    open.forEach(function (li) { setOpen(li, false); });
+    if (inside) {
+      var b = btnOf(inside);
+      if (b && document.activeElement !== b) b.focus();
+    }
+    e.preventDefault();
   });
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('.dropdown a');
