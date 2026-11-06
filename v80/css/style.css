@@ -21,8 +21,10 @@
   html body .site-footer .footer-grid > :nth-child(5){grid-column:4;grid-row:1}
   html body .site-footer .footer-grid > :nth-child(6){grid-column:2;grid-row:2}
   html body .site-footer .footer-grid > :nth-child(7){grid-column:3;grid-row:2}
-  /* 5. Intro card body uses the 1194 ratio 13.4955/17.994 = 0.75 against the 16px portrait body. */
-  html body .intro-section.charter-intro:not(.mx-intro) .img-card .body p:not(.label){font-size:.75rem}
+  /* 5. V79 at 1194: visible King Air body and the hidden "The benchmark..." span are both
+     13.7654px / 300. Intro card body is 13.4955px / 300. Ratio 13.4955/13.7654 = 0.980393.
+     Portrait expandable body is 16px, so the card body is that ratio times 1rem. Wide rules are untouched. */
+  html body .intro-section.charter-intro:not(.mx-intro) .img-card .body p:not(.label){font-size:calc(1rem * 13.4955 / 13.7654)}
   /* 8. Inclusion rules use the same 400px width as .repo-list, left aligned. */
   html body .incl-cols .checklist{max-width:400px;width:100%}
   /* 9. Shorter How to Join cards by reducing vertical padding only. */
