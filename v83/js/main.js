@@ -718,13 +718,35 @@
       var frame = document.createElement('iframe');
       frame.className = 'quote-frame';
       frame.setAttribute('data-quote-frame', '');
-      frame.title = 'Request form';
+      frame.title = modal.getAttribute('data-quote-title') || 'Request form';
       /* Opaque origin: the parent page, and any replay script in it, cannot read this document. */
       frame.setAttribute('sandbox', 'allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation');
-      frame.addEventListener('load', function () {
-        if (!frame.getAttribute('src') || frame.getAttribute('src') === 'about:blank') return;
-        try { frame.contentWindow.postMessage({ source: 'ca-quote-parent', type: 'focus' }, '*'); } catch (err) {}
-      });
+      var fallback = slot.querySelector('[data-quote-fallback]');
+      if (!fallback) {
+        fallback = document.createElement('p');
+        fallback.className = 'quote-frame-fallback';
+        fallback.setAttribute('data-quote-fallback', '');
+        fallback.hidden = true;
+        fallback.textContent = 'The form did not load. Use the phone number on this panel.';
+        slot.appendChild(fallback);
+      }
+      fallback.hidden = true;
+      window.setTimeout(function () {
+        if (frame.isConnected && !frame.getAttribute('data-quote-ready')) fallback.hidden = false;
+      }, 4000);
+      var endStop = dialog.querySelector('[data-quote-sentinel]');
+      if (!endStop) {
+        endStop = document.createElement('button');
+        endStop.type = 'button';
+        endStop.className = 'visually-hidden';
+        endStop.setAttribute('data-quote-sentinel', 'next');
+        endStop.textContent = 'Close';
+        dialog.appendChild(endStop);
+        endStop.addEventListener('focus', function () {
+          var closeBtn = dialog.querySelector('.quote-close');
+          if (closeBtn) closeBtn.focus();
+        });
+      }
       slot.appendChild(frame);
       frame.src = modal.getAttribute('data-quote-src') || 'quote-frame.html';
     }
@@ -743,8 +765,9 @@
       mountFrame();
       window.requestAnimationFrame(function () { modal.classList.add('is-open'); });
       dialog.setAttribute('tabindex', '-1');
-      var first = dialog.querySelector('input:not([type="radio"]):not([type="hidden"]), select, textarea') || focusables()[0];
-      (first || dialog).focus({ preventScroll: true });
+      /* Close is the first stop in every engine. The frame does not take focus on load. */
+      var closeBtn = dialog.querySelector('.quote-close') || focusables()[0];
+      (closeBtn || dialog).focus({ preventScroll: true });
       dialog.scrollTop = 0;
     }
     function closeModal() {
@@ -771,8 +794,21 @@
       if (!frame || e.source !== frame.contentWindow) return;
       var d = e.data;
       if (!d || d.source !== 'ca-quote-frame') return;
-      if (d.type === 'height' && typeof d.height === 'number' && d.height > 40 && d.height < 8000) frame.style.height = Math.ceil(d.height) + 'px';
+      if (d.type === 'height' && typeof d.height === 'number' && d.height > 40 && d.height < 8000) {
+        frame.style.height = Math.ceil(d.height) + 'px';
+        frame.setAttribute('data-quote-ready', '1');
+        var fallback = dialog.querySelector('[data-quote-fallback]');
+        if (fallback) fallback.hidden = true;
+      }
       if (d.type === 'escape') closeModal();
+      if (d.type === 'tab-out') {
+        var items = focusables();
+        if (!items.length) return;
+        if (d.dir === 'prev') {
+          var at = items.indexOf(frame);
+          (at > 0 ? items[at - 1] : items[0]).focus();
+        } else items[0].focus();
+      }
     });
     document.addEventListener('keydown', function (e) {
       if (modal.hidden) return;
@@ -780,9 +816,18 @@
       if (e.key === 'Tab') {
         var f = focusables(); if (!f.length) { e.preventDefault(); return; }
         var first = f[0], last = f[f.length - 1], a = document.activeElement;
+        var frameEl = dialog.querySelector('[data-quote-frame]');
+        function focusLastInFrame() {
+          if (!frameEl) { last.focus(); return; }
+          try { frameEl.contentWindow.postMessage({ source: 'ca-quote-parent', type: 'focus-last' }, '*'); } catch (err) { last.focus(); }
+        }
+        if (a && a.tagName === 'IFRAME' && e.shiftKey) { e.preventDefault(); focusLastInFrame(); return; }
         if (a && a.tagName === 'IFRAME') return;
         if (!dialog.contains(a)) { e.preventDefault(); first.focus(); }
-        else if (e.shiftKey && (a === first || a === dialog)) { e.preventDefault(); last.focus(); }
+        else if (e.shiftKey && (a === first || a === dialog || (a && a.hasAttribute && a.hasAttribute('data-quote-sentinel')))) {
+          e.preventDefault();
+          focusLastInFrame();
+        }
         else if (!e.shiftKey && a === last && a.tagName !== 'IFRAME') { e.preventDefault(); first.focus(); }
       }
     }, true);

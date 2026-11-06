@@ -2,13 +2,15 @@
    The request form lives in a separate opaque document, so a future replay script
    on the public page cannot read those fields. Login, estimate, maintenance, and
    the form documents themselves stay excluded. Real tags stay off until an owned
-   id is    verified. A local stub is not proof that Google or Clarity stayed quiet.
+   id is verified. A local stub is not proof that Google or Clarity stayed quiet.
    Both loaders exist. Neither runs until an owned id is verified and the visitor has accepted.
    The off switch is: do not insert the tag, save the denial, and open a fresh document whose
    loader sees that denial. A consent update after a tag is already running is not treated as off.
    Clarity's consentv2 denial still allows limited cookieless capture. No pause or stop call is used.
    One Analytics path: the GTM container. The GA4 id is not loaded beside it.
-   Ads storage, ad user data, and ad personalization stay denied. Signals, remarketing,
+   Google Consent Mode is gtag('consent','default'|'update', ...) via dataLayer.push(arguments),
+   the command in Google's tag setup guide. A plain object named consent_default is not that command.
+   Ads storage, ad user data, and ad personalization stay denied on both calls. Signals, remarketing,
    enhanced conversions, and conversion events stay off. The quote form does not POST,
    so this file does not send generate_lead. A future lead, if any, is one server-confirmed
    submission, counted once, and is not also a native Ads primary conversion. */
@@ -24,18 +26,47 @@
   var ACTIVE = { activation: 'hold', gtmId: '', clarityId: '', tagsEnabled: false };
   var PRODUCTION_HOSTS = { 'clipperaviation.com': 1, 'www.clipperaviation.com': 1 };
   var STORE_KEY = 'ca_consent_v1';
-  var GA_BLOCKED = { 'client-login.html': 1, 'quote-frame.html': 1, 'mx-frame.html': 1 };
+  var GA_BLOCKED = { 'client-login': 1, 'quote-frame': 1, 'mx-frame': 1 };
   var CLARITY_BLOCKED = {
-    'client-login.html': 1, 'estimate.html': 1, 'maintenance.html': 1,
-    'quote-frame.html': 1, 'mx-frame.html': 1
+    'client-login': 1, 'estimate': 1, 'maintenance': 1,
+    'quote-frame': 1, 'mx-frame': 1
   };
 
   function pageName(path) {
     var p = String(path || '').split('?')[0].split('#')[0];
+    try { p = decodeURIComponent(p); } catch (e) {}
+    p = p.replace(/\/+$/, '');
     var parts = p.split('/');
-    var last = parts[parts.length - 1] || '';
-    if (!/[^a-z0-9.-]/i.test(last) && last.length < 80) return last;
-    return '';
+    var last = parts[parts.length - 1] || 'index';
+    last = last.replace(/\.html$/i, '');
+    if (!last) last = 'index';
+    if (!/^[a-z0-9.-]+$/i.test(last) || last.length >= 80) return '';
+    return last.toLowerCase();
+  }
+  function consentCommands() {
+    var deniedAds = {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    };
+    return {
+      /* Google Consent Mode: dataLayer.push(arguments), not a plain object. */
+      defaultCall: ['consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'granted'
+      }],
+      updateCall: ['consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: deniedAds.ad_storage,
+        ad_user_data: deniedAds.ad_user_data,
+        ad_personalization: deniedAds.ad_personalization
+      }]
+    };
   }
   function currentPage() {
     if (typeof location === 'undefined') return '';
@@ -56,6 +87,12 @@
     var t = window.__CA_MEASURE_TEST__;
     return t && t.stub === true ? t : null;
   }
+  function measureFlag(flag) {
+    if (typeof document === 'undefined') return false;
+    var m = document.querySelector('meta[name="ca-measure"]');
+    if (!m) return false;
+    return new RegExp('(^|\\s)' + flag + '(\\s|$)').test(m.getAttribute('content') || '');
+  }
   function clientInputInDom() {
     if (typeof document === 'undefined') return false;
     return !!document.querySelector('form[data-mock-form] input, form[data-mock-form] textarea, form[data-mock-form] select, #estimate-form input, #estimate-form select, #estimate-form textarea, #client-pass, input[type="password"]');
@@ -74,7 +111,7 @@
 
   function buildEvent(name, params, path) {
     var page = pageName(path == null ? currentPage() : path);
-    if (GA_BLOCKED[page]) return null;
+    if (GA_BLOCKED[page] || page === '') return null;
     var allowed = {
       nav_select: ['link_path'],
       quote_cta: [],
@@ -110,18 +147,21 @@
   function planLoads(ctx) {
     var c = ctx || {};
     var consent = c.consent || { analytics: false, replay: false };
-    var page = c.page || '';
+    var page = pageName(c.page || '');
     var signal = !!c.signalOptOut;
     var clientInput = !!c.clientInput;
+    var noGa = !!c.noGa;
+    var noReplay = !!c.noReplay;
     var gtmShape = /^GTM-[A-Z0-9]+$/.test(c.gtmId || '');
     var clarityShape = /^[a-z0-9]{4,32}$/.test(c.clarityId || '');
     var verified = c.activation === 'verified' && c.tagsEnabled === true && !!c.hostOk && !signal;
     var stub = !!c.testStub;
-    var gtm = verified && consent.analytics === true && !GA_BLOCKED[page] && gtmShape;
-    var clarity = verified && consent.replay === true && !CLARITY_BLOCKED[page] && !clientInput && clarityShape;
+    var named = page !== '';
+    var gtm = named && verified && consent.analytics === true && !noGa && !GA_BLOCKED[page] && gtmShape;
+    var clarity = named && verified && consent.replay === true && !noReplay && !CLARITY_BLOCKED[page] && !clientInput && clarityShape;
     if (stub) {
-      gtm = consent.analytics === true && !signal && !GA_BLOCKED[page];
-      clarity = consent.replay === true && !signal && !CLARITY_BLOCKED[page] && !clientInput;
+      gtm = named && consent.analytics === true && !signal && !noGa && !GA_BLOCKED[page];
+      clarity = named && consent.replay === true && !signal && !noReplay && !CLARITY_BLOCKED[page] && !clientInput;
     }
     return {
       gtm: !!gtm,
@@ -165,6 +205,8 @@
       page: currentPage(),
       signalOptOut: signalOptOut(),
       clientInput: clientInputInDom(),
+      noGa: measureFlag('no-ga'),
+      noReplay: measureFlag('no-replay'),
       activation: ACTIVE.activation,
       tagsEnabled: ACTIVE.tagsEnabled,
       hostOk: hostAllowed(),
@@ -190,20 +232,21 @@
     if (plan.gtm && !started.gtm) {
       started.gtm = true;
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'consent_default',
-        analytics_storage: 'granted',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied'
-      });
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      var consent = consentCommands();
+      window.gtag.apply(null, consent.defaultCall);
+      window.gtag.apply(null, consent.updateCall);
       if (t) addScript('gtm', 'js/tag-stub.js?kind=gtm');
-      else addScript('gtm', 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(ACTIVE.gtmId));
+      else if (ACTIVE.gtmId) addScript('gtm', 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(ACTIVE.gtmId));
     }
     if (plan.clarity && !started.clarity) {
       started.clarity = true;
+      /* Clarity consent v2 is sent only if that script is actually started.
+         A denied consentv2 signal is not a hard off; withdrawal reloads a fresh document. */
+      window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+      window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
       if (t) addScript('clarity', 'js/tag-stub.js?kind=clarity');
-      else addScript('clarity', 'https://www.clarity.ms/tag/' + encodeURIComponent(ACTIVE.clarityId));
+      else if (ACTIVE.clarityId) addScript('clarity', 'https://www.clarity.ms/tag/' + encodeURIComponent(ACTIVE.clarityId));
     }
     return plan;
   }
@@ -315,6 +358,7 @@
     safeLocation: safeLocation,
     pageName: pageName,
     planLoads: planLoads,
+    consentCommands: consentCommands,
     debugLog: function () { return log.slice(); },
     tagsEnabled: function () { return ACTIVE.tagsEnabled; },
     activation: function () { return ACTIVE.activation; },

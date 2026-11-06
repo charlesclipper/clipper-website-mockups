@@ -102,6 +102,7 @@ body:has(.cookie-notice:not([hidden])) .fab-quote{bottom:calc(12rem + env(safe-a
 .cookie-customize input{min-width:24px;min-height:24px}
 .quote-frame{display:block;width:100%;border:0;background:transparent;min-height:20rem}
 .quote-frame-slot{min-width:0}
+.quote-frame-fallback{margin:var(--s4) 0 0;color:var(--navy);font:400 1rem/1.5 var(--font-body)}
 html body .site-footer .footer-bottom{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:var(--s3) var(--s6);font-size:inherit;line-height:1.5;color:var(--slate)}
 html body .site-footer .footer-bottom .footer-cert{margin:0;flex:1 1 18rem;max-width:42rem;text-align:left}
 html body .site-footer .footer-bottom .footer-rights{margin:0 0 0 auto;flex:0 1 auto;max-width:none;text-align:right}
