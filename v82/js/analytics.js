@@ -1,12 +1,13 @@
-/* V82 measurement. The only off switch this file trusts is not inserting the tag.
-   A later consent=denied update, or a missing cookie, is not treated as proof that
-   cookieless GA pings or limited Clarity capture have stopped. No Clarity pause or
-   stop call is used. Official hard-off behavior is still unverified.
-   One path only: GTM-MFBP4H3. G-YKMHHTEZ7J is not loaded beside it.
-   Ads storage, ad user data, and ad personalization stay denied. Signals and
-   remarketing are not turned on. Replay stays unloaded on every current page
-   because the request form is in the page, and masking is not an exclusion.
-   Tags stay off in this preview. */
+/* V82 measurement for GA4 and Clarity.
+   Both loaders exist. Neither runs until an owned id is verified and the visitor has accepted.
+   The off switch is: do not insert the tag, save the denial, and open a fresh document whose
+   loader sees that denial. A consent update after a tag is already running is not treated as off.
+   Clarity's consentv2 denial still allows limited cookieless capture. No pause or stop call is used.
+   One Analytics path: the GTM container. The GA4 id is not loaded beside it.
+   Ads storage, ad user data, and ad personalization stay denied. Signals, remarketing,
+   enhanced conversions, and conversion events stay off. The quote form does not POST,
+   so this file does not send generate_lead. A future lead, if any, is one server-confirmed
+   submission, counted once, and is not also a native Ads primary conversion. */
 (function (root, factory) {
   var api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -14,28 +15,23 @@
 })(typeof window !== 'undefined' ? window : null, function () {
   'use strict';
 
-  var PRODUCTION_GTM_ID = 'GTM-MFBP4H3';
-  var PRODUCTION_GA4_ID = 'G-YKMHHTEZ7J';
-  var CLARITY_ID = '';
-  var TAGS_ENABLED = false;
+  var CANDIDATE_GTM_ID = 'GTM-MFBP4H3';
+  var CANDIDATE_GA4_ID = 'G-YKMHHTEZ7J';
+  var ACTIVE = { activation: 'hold', gtmId: '', clarityId: '', tagsEnabled: false };
   var PRODUCTION_HOSTS = { 'clipperaviation.com': 1, 'www.clipperaviation.com': 1 };
   var STORE_KEY = 'ca_consent_v1';
-  var MARKETING = {
-    'index.html': 1, 'charter.html': 1, 'altitudeaccess.html': 1, 'maintenance.html': 1,
-    'about.html': 1, 'privacy.html': 1, 'accessibility.html': 1, '404.html': 1, '': 1
+  var GA_BLOCKED = { 'client-login.html': 1, 'quote-frame.html': 1, 'mx-frame.html': 1 };
+  var CLARITY_BLOCKED = {
+    'client-login.html': 1, 'estimate.html': 1, 'maintenance.html': 1,
+    'quote-frame.html': 1, 'mx-frame.html': 1
   };
-  var BLOCKED = { 'client-login.html': 1 };
-  var SENSITIVE = { 'client-login.html': 1, 'estimate.html': 1, 'empty-legs.html': 1 };
 
   function pageName(path) {
     var p = String(path || '').split('?')[0].split('#')[0];
     var parts = p.split('/');
     var last = parts[parts.length - 1] || '';
-    if (LAST_OK(last)) return last;
+    if (!/[^a-z0-9.-]/i.test(last) && last.length < 80) return last;
     return '';
-  }
-  function LAST_OK(name) {
-    return !/[^a-z0-9.-]/i.test(name) && name.length < 80;
   }
   function currentPage() {
     if (typeof location === 'undefined') return '';
@@ -51,6 +47,15 @@
     if (typeof location === 'undefined') return false;
     return !!PRODUCTION_HOSTS[location.hostname];
   }
+  function testMode() {
+    if (typeof window === 'undefined' || !window.__CA_MEASURE_TEST__) return null;
+    var t = window.__CA_MEASURE_TEST__;
+    return t && t.stub === true ? t : null;
+  }
+  function clientInputInDom() {
+    if (typeof document === 'undefined') return false;
+    return !!document.querySelector('form[data-mock-form] input, form[data-mock-form] textarea, form[data-mock-form] select, #estimate-form input, #estimate-form select, #estimate-form textarea, #client-pass, input[type="password"]');
+  }
 
   function sanitizeValue(value) {
     if (value == null) return null;
@@ -65,7 +70,7 @@
 
   function buildEvent(name, params, path) {
     var page = pageName(path == null ? currentPage() : path);
-    if (BLOCKED[page]) return null;
+    if (GA_BLOCKED[page]) return null;
     var allowed = {
       nav_select: ['link_path'],
       quote_cta: [],
@@ -98,8 +103,40 @@
     }
   }
 
+  function planLoads(ctx) {
+    var c = ctx || {};
+    var consent = c.consent || { analytics: false, replay: false };
+    var page = c.page || '';
+    var signal = !!c.signalOptOut;
+    var clientInput = !!c.clientInput;
+    var gtmShape = /^GTM-[A-Z0-9]+$/.test(c.gtmId || '');
+    var clarityShape = /^[a-z0-9]{4,32}$/.test(c.clarityId || '');
+    var verified = c.activation === 'verified' && c.tagsEnabled === true && !!c.hostOk && !signal;
+    var stub = !!c.testStub;
+    var gtm = verified && consent.analytics === true && !GA_BLOCKED[page] && gtmShape;
+    var clarity = verified && consent.replay === true && !CLARITY_BLOCKED[page] && !clientInput && clarityShape;
+    if (stub) {
+      gtm = consent.analytics === true && !signal && !GA_BLOCKED[page];
+      clarity = consent.replay === true && !signal && !CLARITY_BLOCKED[page] && !clientInput;
+    }
+    return {
+      gtm: !!gtm,
+      clarity: !!clarity,
+      separateGtag: false,
+      ads: {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        signals: false,
+        remarketing: false,
+        enhancedConversions: false,
+        conversion: false
+      }
+    };
+  }
+
   var state = { analytics: false, replay: false, chosen: false };
-  var started = { gtm: false };
+  var started = { gtm: false, clarity: false };
   var log = [];
 
   function readStore() {
@@ -117,59 +154,81 @@
     } catch (e) { /* storage blocked */ }
   }
 
-  function clientInputInDom() {
-    if (typeof document === 'undefined') return false;
-    return !!document.querySelector('#quote-modal, [data-quote-open], #client-pass, .leg-date, form[data-mock-form]');
-  }
-
-  function replayPermitted() {
-    /* Marketing-page allowlists are not enough: the quote form is on those pages too.
-       Masking does not count as exclusion. Replay is not loaded until a separate
-       architecture keeps client fields out of the captured DOM. */
-    if (clientInputInDom()) return false;
-    if (!CLARITY_ID || signalOptOut() || SENSITIVE[currentPage()]) return false;
-    return state.replay === true;
-  }
-
-  function hardLoadGate() {
-    return TAGS_ENABLED === true && state.analytics === true && hostAllowed() && !signalOptOut() && !BLOCKED[currentPage()];
-  }
-
-  function loadGtm() {
-    if (started.gtm || !hardLoadGate()) return;
-    if (typeof document === 'undefined') return;
-    started.gtm = true;
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'consent_default',
-      analytics_storage: 'granted',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied'
+  function currentPlan() {
+    var t = testMode();
+    return planLoads({
+      consent: state,
+      page: currentPage(),
+      signalOptOut: signalOptOut(),
+      clientInput: clientInputInDom(),
+      activation: ACTIVE.activation,
+      tagsEnabled: ACTIVE.tagsEnabled,
+      hostOk: hostAllowed(),
+      gtmId: ACTIVE.gtmId,
+      clarityId: ACTIVE.clarityId,
+      testStub: !!t
     });
-    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+  }
+
+  function addScript(kind, src) {
+    if (typeof document === 'undefined') return;
     var s = document.createElement('script');
     s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(PRODUCTION_GTM_ID);
-    s.setAttribute('data-ca-tag', 'gtm');
+    s.src = src;
+    s.setAttribute('data-ca-tag', kind);
     document.head.appendChild(s);
+  }
+
+  function loadFromPlan() {
+    var plan = currentPlan();
+    if (typeof document === 'undefined') return plan;
+    var t = testMode();
+    if (plan.gtm && !started.gtm) {
+      started.gtm = true;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'consent_default',
+        analytics_storage: 'granted',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+      if (t) addScript('gtm', 'js/tag-stub.js?kind=gtm');
+      else addScript('gtm', 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(ACTIVE.gtmId));
+    }
+    if (plan.clarity && !started.clarity) {
+      started.clarity = true;
+      if (t) addScript('clarity', 'js/tag-stub.js?kind=clarity');
+      else addScript('clarity', 'https://www.clarity.ms/tag/' + encodeURIComponent(ACTIVE.clarityId));
+    }
+    return plan;
+  }
+
+  function freshOff() {
+    if (typeof location === 'undefined' || !location.replace) return;
+    location.replace(location.pathname + (location.hash || ''));
   }
 
   function track(name, params) {
     var ev = buildEvent(name, params);
     if (!ev) return null;
     log.push(ev);
-    if (hardLoadGate() && window.dataLayer) window.dataLayer.push(ev);
+    if (currentPlan().gtm && window.dataLayer) window.dataLayer.push(ev);
     return ev;
   }
 
   function applyChoice(next) {
-    state.analytics = next.analytics === true;
-    state.replay = next.replay === true && replayPermitted();
+    var priorOn = !!(state.analytics || state.replay || started.gtm || started.clarity);
+    state.analytics = next.analytics === true && !signalOptOut();
+    state.replay = next.replay === true && !signalOptOut();
     state.chosen = true;
     writeStore();
     track('consent_choice', { analytics: state.analytics, replay: state.replay });
-    if (state.analytics) loadGtm();
+    if (priorOn && !state.analytics && !state.replay) {
+      freshOff();
+      return;
+    }
+    loadFromPlan();
   }
 
   function bindNotice() {
@@ -180,6 +239,14 @@
     var saved = readStore();
     if (signalOptOut()) state = { analytics: false, replay: false, chosen: false };
     else if (saved) state = { analytics: saved.analytics, replay: saved.replay, chosen: true };
+    var replayInput = n.querySelector('[data-purpose="replay"]');
+    var replayBlocked = !!CLARITY_BLOCKED[currentPage()] || clientInputInDom();
+    if (replayInput && replayBlocked) {
+      replayInput.disabled = true;
+      replayInput.checked = false;
+      var label = replayInput.parentNode;
+      if (label) label.appendChild(document.createTextNode(' This page keeps a form, so replay stays off here.'));
+    }
     function paint() {
       n.hidden = false;
       if (box) box.hidden = true;
@@ -190,19 +257,21 @@
       if (!b) return;
       var kind = b.getAttribute('data-consent');
       if (kind === 'customize') { if (box) box.hidden = false; return; }
-      if (kind === 'accept') applyChoice({ analytics: true, replay: false });
+      if (kind === 'accept') applyChoice({ analytics: true, replay: true });
       if (kind === 'reject') applyChoice({ analytics: false, replay: false });
       if (kind === 'save') {
         var a = n.querySelector('[data-purpose="analytics"]');
         var r = n.querySelector('[data-purpose="replay"]');
-        applyChoice({ analytics: !!(a && a.checked), replay: !!(r && r.checked) });
+        var replay = r && !r.disabled ? !!r.checked : state.replay;
+        applyChoice({ analytics: !!(a && a.checked), replay: replay });
       }
       if (kind === 'accept' || kind === 'reject' || kind === 'save') {
-        n.querySelector('[data-cookie-text]').textContent = 'Choice saved. This preview still does not insert Analytics or replay tags. Rejecting or withdrawing a choice only keeps them from being added. A denial after a tag has already loaded is not proof that cookieless pings have stopped.';
+        var text = n.querySelector('[data-cookie-text]');
+        if (text) text.textContent = 'Choice saved on this browser. This preview does not contact Google or Microsoft. Withdrawing a yes saves the denial and opens a fresh copy of the page with the tags blocked.';
         if (box) box.hidden = true;
       }
     });
-    if (state.chosen && state.analytics) loadGtm();
+    if (state.chosen && (state.analytics || state.replay)) loadFromPlan();
   }
 
   function bindEvents() {
@@ -241,13 +310,17 @@
     sanitizeValue: sanitizeValue,
     safeLocation: safeLocation,
     pageName: pageName,
+    planLoads: planLoads,
     debugLog: function () { return log.slice(); },
-    tagsEnabled: function () { return TAGS_ENABLED; },
-    productionGa4Id: PRODUCTION_GA4_ID,
-    productionGtmId: PRODUCTION_GTM_ID,
-    clarityConfigured: function () { return !!CLARITY_ID; },
-    replayPermitted: replayPermitted,
-    hardLoadGate: hardLoadGate,
-    clientInputInDom: clientInputInDom
+    tagsEnabled: function () { return ACTIVE.tagsEnabled; },
+    activation: function () { return ACTIVE.activation; },
+    productionGa4Id: CANDIDATE_GA4_ID,
+    productionGtmId: CANDIDATE_GTM_ID,
+    clarityConfigured: function () { return ACTIVE.clarityId.length > 0; },
+    replayPermitted: function () { return currentPlan().clarity; },
+    hardLoadGate: function () { return currentPlan().gtm; },
+    clientInputInDom: clientInputInDom,
+    gaBlocked: GA_BLOCKED,
+    clarityBlocked: CLARITY_BLOCKED
   };
 });

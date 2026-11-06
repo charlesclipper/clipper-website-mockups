@@ -53,7 +53,7 @@
 <section class="section bg-paper legal">
   <div class="container legal-inner">
     <h1 class="h1">Privacy Policy</h1>
-    <p class="login-note" role="note">This V82 preview does not send data to Google Analytics or a replay tool. The note at the bottom offers accept, reject, and customize. Continuing to browse is not consent. Tags stay unloaded here until a property is configured and tested. A production legal review is still required. This note is not a certification.</p>
+    <p class="login-note" role="note">This V82 preview does not send data to Google Analytics or a replay tool. The note at the bottom offers accept, reject, and customize. Continuing to browse is not consent. Rejecting, or withdrawing an earlier yes, saves that denial and opens a fresh copy of the page with the tags blocked. A denial sent to a tag that is already running is not treated as off, because a cookieless ping can continue. No project id is verified, so nothing is loaded. Replay is not used on the login, estimate, or maintenance pages, or inside a request form. A production legal review is still required. This note is not a certification.</p>
     <p class="legal-date"><strong>Effective Date: May 1, 2025</strong></p>
     <p>Clipper Aviation (“we,” “our,” or “us”) deeply values our customers’ digital privacy rights. This Privacy Policy describes how we collect, use and protect your personal data when you interact with us through our website www.clipperaviation.com, engage our services, or otherwise. We are committed to protecting your personal data in accordance with industry best-practice and all applicable local, state, federal and international regulations including the California Consumer Privacy Act (CCPA) and General Data Protection Regulation (GDPR).</p>
     <h2 class="h3">1. Information We Collect</h2>
@@ -81,7 +81,7 @@
     <h3 class="legal-h">c. Legal and Regulatory Disclosure</h3>
     <p>We may disclose your data when required by law or to respond to valid legal requests, such as from regulators, courts, or law enforcement.</p>
     <h2 class="h3">5. Cookies and Tracking Technologies</h2>
-    <p>This preview does not ask you to accept, reject, or customize cookies, and continuing to browse is not consent. The note on the page can be dismissed. Browser settings remain available. A production consent control is separate.</p>
+    <p>This preview asks you to accept, reject, or customize before any measurement tag can load. Continuing to browse is not consent. The tags stay unloaded until an owned id is verified. Withdrawing a yes reloads a fresh page so a tag that was already inserted does not keep running. Browser settings remain available. This is not a certification.</p>
     <h3 class="legal-h">Types of Cookies We Use</h3>
     <div class="legal-table-wrap" role="region" aria-label="Cookie table" tabindex="0"><table class="legal-table">
       <thead><tr><th scope="col">Cookie Type</th><th scope="col">Purpose</th><th scope="col">Examples</th></tr></thead>
@@ -225,7 +225,7 @@
 <script src="js/turnstile.js" defer></script>
 <!-- V52 change 2: cookie notice (informational, shown by js/analytics.js, which also holds the Clarity and GA4 ids) -->
 <div class="cookie-notice" data-cookie-notice role="region" aria-label="Privacy choices" hidden>
-  <p class="cookie-notice-text" data-cookie-text>Public-page measurement is not loaded until you accept. Continuing is not consent. Rejecting or withdrawing a choice keeps the tags from being added. A denial after a tag has already loaded is not proof that cookieless pings have stopped, so this preview never inserts them. Replay is not loaded, because the request form is on these pages.</p>
+  <p class="cookie-notice-text" data-cookie-text>Tags stay off until you accept. Continuing is not consent. This preview does not load Analytics or replay.</p>
   <div class="cookie-notice-actions">
     <button class="cookie-notice-ok" type="button" data-consent="accept">Accept</button>
     <button class="cookie-notice-ok cookie-notice-reject" type="button" data-consent="reject">Reject</button>

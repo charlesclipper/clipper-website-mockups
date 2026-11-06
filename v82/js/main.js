@@ -680,7 +680,7 @@
       /* V39 change 20: bot checks (honeypot, minimum time, Turnstile token) live in js/turnstile.js; false = do not send */
       if (form._botCheck && !form._botCheck()) return;
       form.classList.add('is-sent');
-      document.dispatchEvent(new CustomEvent('ca:form-sent', { detail: { form: form } }));   // V49 change 2: js/analytics.js listens for this (generate_lead)
+      document.dispatchEvent(new CustomEvent('ca:form-sent', { detail: { form: form } }));   /* Preview only. This is not a GA4 generate_lead. A lead event waits for a real server-confirmed submission. */
       var ok = form.nextElementSibling;
       if (ok) { if (!ok.hasAttribute('tabindex')) ok.setAttribute('tabindex', '-1'); ok.focus({ preventScroll: true }); }
     });
@@ -710,16 +710,16 @@
       trigger = from || document.activeElement;
       // opened from the mobile menu: close the menu first and return focus to its toggle
       if (trigger && trigger.closest && trigger.closest('.mobile-menu')) { setMenu(false); trigger = document.querySelector('[data-menu-open]') || trigger; }
-      var f = dialog.querySelector('[data-mock-form]'); if (f && f._resetMock) f._resetMock();
       var sbw = window.innerWidth - document.documentElement.clientWidth;
       document.documentElement.style.setProperty('--sbw', sbw + 'px');
       modal.hidden = false;
       document.body.classList.add('modal-open');
       if (header) header.classList.remove('is-hidden');
       inertTargets().forEach(function (n) { n.setAttribute('inert', ''); });
+      var form = dialog.querySelector('[data-mock-form]'); if (form && form._resetMock) form._resetMock();
       window.requestAnimationFrame(function () { modal.classList.add('is-open'); });
-      var first = dialog.querySelector('input:not([type="radio"]), select, textarea') || focusables()[0];
       dialog.setAttribute('tabindex', '-1');
+      var first = dialog.querySelector('input:not([type="radio"]):not([type="hidden"]), select, textarea') || focusables()[0];
       (first || dialog).focus({ preventScroll: true });
       dialog.scrollTop = 0;
     }
