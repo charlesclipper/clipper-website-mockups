@@ -30,6 +30,9 @@
 		handle /.git* {
 			respond 404
 		}
+		handle /.nojekyll {
+			file_server
+		}
 		@noslashquery {
 			not path */
 			file {path}/index.html
