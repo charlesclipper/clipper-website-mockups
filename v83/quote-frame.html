@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'none'">
+<title>Request a quote</title>
+<link rel="stylesheet" href="css/style.css">
+<style>html body{margin:0 !important;padding:0 !important;background:transparent;overflow:visible}</style>
+</head>
+<body>
+<form class="form" data-mock-form data-jetinsight novalidate>
+          <p class="req-note full">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+          <div class="field full"><div class="segmented" role="radiogroup" aria-label="Trip type">
+            <label><input type="radio" name="trip-type" value="round-trip" checked><span>Round trip</span></label>
+            <label><input type="radio" name="trip-type" value="one-way"><span>One way</span></label>
+            <label><input type="radio" name="trip-type" value="multi-leg"><span>Multi-leg</span></label></div></div>
+          <div class="full legs" data-legs>
+          <fieldset class="field full leg" data-leg><legend class="leg-title">Leg 1</legend><div class="leg-grid">
+            <div class="field"><label for="q-from-1">From <span class="req" aria-hidden="true">*</span></label><input id="q-from-1" name="from-1" list="q-airports" required autocomplete="off" placeholder="Airport or city" data-label="Leg 1 from" data-err="Enter where you are departing from."></div>
+            <div class="field"><label for="q-to-1">To <span class="req" aria-hidden="true">*</span></label><input id="q-to-1" name="to-1" list="q-airports" required autocomplete="off" placeholder="Airport or city" data-label="Leg 1 to" data-err="Enter where you are travelling to."></div>
+            <div class="field"><label for="q-date-1">Depart (date) <span class="req" aria-hidden="true">*</span></label><input id="q-date-1" name="date-1" type="date" required data-label="Leg 1 date" data-err="Choose a departure date."></div>
+            <div class="field"><label for="q-time-1">Start time</label><input id="q-time-1" name="time-1" type="time" data-label="Leg 1 start time"></div>
+            <button class="leg-remove" type="button" data-leg-remove aria-label="Remove leg 1">Remove</button></div></fieldset>
+          <fieldset class="field full leg" data-leg><legend class="leg-title">Leg 2</legend><div class="leg-grid">
+            <div class="field"><label for="q-from-2">From <span class="req" aria-hidden="true">*</span></label><input id="q-from-2" name="from-2" list="q-airports" required autocomplete="off" placeholder="Airport or city" data-label="Leg 2 from" data-err="Enter where you are departing from."></div>
+            <div class="field"><label for="q-to-2">To <span class="req" aria-hidden="true">*</span></label><input id="q-to-2" name="to-2" list="q-airports" required autocomplete="off" placeholder="Airport or city" data-label="Leg 2 to" data-err="Enter where you are travelling to."></div>
+            <div class="field"><label for="q-date-2">Depart (date) <span class="req" aria-hidden="true">*</span></label><input id="q-date-2" name="date-2" type="date" required data-label="Leg 2 date" data-err="Choose a departure date."></div>
+            <div class="field"><label for="q-time-2">Start time</label><input id="q-time-2" name="time-2" type="time" data-label="Leg 2 start time"></div>
+            <button class="leg-remove" type="button" data-leg-remove aria-label="Remove leg 2" hidden>Remove</button></div></fieldset>
+          </div>
+          <div class="full"><button class="btn btn-ghost leg-add" type="button" data-leg-add hidden>Add a leg</button></div>
+          <datalist id="q-airports"><option value="Van Nuys (KVNY)"><option value="Burbank (KBUR)"><option value="Los Angeles (KLAX)"><option value="Santa Monica (KSMO)"><option value="Santa Barbara (KSBA)"><option value="San Francisco (KSFO)"><option value="Las Vegas (KLAS)"><option value="Scottsdale (KSDL)"><option value="Aspen (KASE)"><option value="Jackson Hole (KJAC)"><option value="Sun Valley (KSUN)"><option value="Cabo San Lucas (MMSD)"><option value="San Diego (KSAN)"><option value="Palm Springs (KPSP)"></datalist>
+          <div class="field"><label for="q-pax">Passengers</label><select id="q-pax" name="passengers"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></div>
+          <div class="field"><label for="q-name">Full name <span class="req" aria-hidden="true">*</span></label><input id="q-name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="q-email">Email <span class="req" aria-hidden="true">*</span></label><input id="q-email" name="email" type="email" required autocomplete="email"></div>
+          <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="field full"><label for="q-notes">Notes (pets, catering, ground transport, special requests)</label><textarea id="q-notes" name="notes"></textarea></div>
+          <div class="full ts-wrap" data-ts-wrap>
+            <!-- V39 change 20: Cloudflare Turnstile (managed, interaction-only). Test sitekey always passes; replace at launch (see ISSUES.md). Honeypot below is hidden from people. -->
+            <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="cf-turnstile" data-turnstile data-sitekey="1x00000000000000000000AA"></div>
+            <p class="ts-status form-note" data-ts-status role="status" aria-live="polite">Security check in progress&hellip;</p>
+          </div>
+          <div class="full quote-submit"><button class="btn btn-primary" type="submit" data-ts-submit disabled>Request a Quote</button> <span class="form-note" data-ji-note>&nbsp; Mockup: this form does not send.</span></div>
+        </form>
+        <div class="form-success" role="status" tabindex="-1"><p class="label copper">Thank you</p><p class="h3">Your request has been received.</p><p>A member of our charter team will be in touch shortly. (Mockup: no data was sent.)</p></div>
+<script src="js/main.js" defer></script>
+<script src="js/jetinsight.js" defer></script>
+<script src="js/turnstile.js" defer></script>
+<script src="js/quote-frame.js" defer></script>
+
+</body>
+</html>
