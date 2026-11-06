@@ -4,6 +4,12 @@ This is a design requirement for a portal that may later hold client personal da
 
 The V82 site is a public static mockup. The login form is disabled. It does not create accounts, send mail, or accept passwords. Google Workspace is not chosen and is not connected. Staff use of Workspace multi-factor authentication would not prove multi-factor authentication for a customer account.
 
+Measurement release gates that are still open:
+
+- Tags are not inserted unless a hard gate passes: explicit accept, production host, no Global Privacy Control or Do Not Track, and an enable flag that is off in this preview. A missing cookie, or a consent update set to denied after a tag has loaded, is not treated as proof that tracking stopped. Google can still send cookieless pings after a denial once the tag is loaded. Clarity can still do limited cookieless capture when its consent signal is denied. This preview does not call a Clarity pause or stop method, and it does not claim that removing a script cancels listeners that already ran.
+- Session replay stays unloaded. A marketing-page allow list is not enough, because the request form is on those pages. Masking fields is not an approved exclusion. Replay waits for an architecture that keeps client inputs out of the captured page.
+- The one intended Analytics path is the GTM container `GTM-MFBP4H3`. The GA4 id is not loaded beside it. Ads storage, ad user data, and ad personalization are denied. Google signals and remarketing are not enabled. None of this is live, and it is not a certification.
+
 No card numbers, bank details, or client files belong in this repository or on the preview site.
 
 ## What must be true before confidential production use

@@ -1,11 +1,12 @@
-/* V82 measurement. Nothing is sent until all of these are true:
-   explicit consent for that purpose, this browser is not sending a Global Privacy Control
-   or Do Not Track signal, the host is the production site, and tags are switched on.
-   Tags stay off in this preview so the live GA4 property is not filled with mockup events.
-   The known production container is GTM-MFBP4H3. GA4 G-YKMHHTEZ7J is not loaded beside it,
-   because the container is the one tag path and a second gtag.js would double-count.
-   No Clarity id is set here. Replay is not loaded: these pages include a request form,
-   and masking fields is not treated as enough. */
+/* V82 measurement. The only off switch this file trusts is not inserting the tag.
+   A later consent=denied update, or a missing cookie, is not treated as proof that
+   cookieless GA pings or limited Clarity capture have stopped. No Clarity pause or
+   stop call is used. Official hard-off behavior is still unverified.
+   One path only: GTM-MFBP4H3. G-YKMHHTEZ7J is not loaded beside it.
+   Ads storage, ad user data, and ad personalization stay denied. Signals and
+   remarketing are not turned on. Replay stays unloaded on every current page
+   because the request form is in the page, and masking is not an exclusion.
+   Tags stay off in this preview. */
 (function (root, factory) {
   var api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -116,26 +117,41 @@
     } catch (e) { /* storage blocked */ }
   }
 
-  function replayPermitted() {
-    if (!state.replay || !CLARITY_ID || signalOptOut()) return false;
-    if (SENSITIVE[currentPage()]) return false;
-    if (typeof document !== 'undefined' && document.querySelector('[data-quote-open], .quote-dialog, #quote-modal, #client-pass, .leg-date')) return false;
-    return true;
+  function clientInputInDom() {
+    if (typeof document === 'undefined') return false;
+    return !!document.querySelector('#quote-modal, [data-quote-open], #client-pass, .leg-date, form[data-mock-form]');
   }
 
-  function mayLoad() {
-    return TAGS_ENABLED && state.analytics && hostAllowed() && !signalOptOut() && !BLOCKED[currentPage()];
+  function replayPermitted() {
+    /* Marketing-page allowlists are not enough: the quote form is on those pages too.
+       Masking does not count as exclusion. Replay is not loaded until a separate
+       architecture keeps client fields out of the captured DOM. */
+    if (clientInputInDom()) return false;
+    if (!CLARITY_ID || signalOptOut() || SENSITIVE[currentPage()]) return false;
+    return state.replay === true;
+  }
+
+  function hardLoadGate() {
+    return TAGS_ENABLED === true && state.analytics === true && hostAllowed() && !signalOptOut() && !BLOCKED[currentPage()];
   }
 
   function loadGtm() {
-    if (started.gtm || !mayLoad()) return;
+    if (started.gtm || !hardLoadGate()) return;
     if (typeof document === 'undefined') return;
     started.gtm = true;
     window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'consent_default',
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
+    });
     window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(PRODUCTION_GTM_ID);
+    s.setAttribute('data-ca-tag', 'gtm');
     document.head.appendChild(s);
   }
 
@@ -143,7 +159,7 @@
     var ev = buildEvent(name, params);
     if (!ev) return null;
     log.push(ev);
-    if (mayLoad() && window.dataLayer) window.dataLayer.push(ev);
+    if (hardLoadGate() && window.dataLayer) window.dataLayer.push(ev);
     return ev;
   }
 
@@ -182,7 +198,7 @@
         applyChoice({ analytics: !!(a && a.checked), replay: !!(r && r.checked) });
       }
       if (kind === 'accept' || kind === 'reject' || kind === 'save') {
-        n.querySelector('[data-cookie-text]').textContent = 'Choice saved on this browser. Measurement stays off in this preview until a property is configured and tested. Open choices again any time.';
+        n.querySelector('[data-cookie-text]').textContent = 'Choice saved. This preview still does not insert Analytics or replay tags. Rejecting or withdrawing a choice only keeps them from being added. A denial after a tag has already loaded is not proof that cookieless pings have stopped.';
         if (box) box.hidden = true;
       }
     });
@@ -230,6 +246,8 @@
     productionGa4Id: PRODUCTION_GA4_ID,
     productionGtmId: PRODUCTION_GTM_ID,
     clarityConfigured: function () { return !!CLARITY_ID; },
-    replayPermitted: replayPermitted
+    replayPermitted: replayPermitted,
+    hardLoadGate: hardLoadGate,
+    clientInputInDom: clientInputInDom
   };
 });
