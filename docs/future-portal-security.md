@@ -12,7 +12,8 @@ An independent review against the OWASP Application Security Verification Standa
 
 Identity:
 
-- A managed identity provider, chosen after the current Workspace research, with verified multi-factor authentication, account linking, recovery, and revocation for customer accounts.
+- The candidate below is a research recommendation, not a decision and not a configured project. Nothing in Google Admin, Cloud, or Identity Platform has been provisioned.
+- Server-side authentication on every request. Hiding a control in the browser is not protection.
 - Server-side authentication on every request. Hiding a control in the browser is not protection.
 - Authorization is default deny, checked on the server for each client, object, and action. One client must not read or change another client's records (including by changing an id). A staff role must not gain a client role by calling a client URL, and a client must not gain a staff action.
 - Session cookies are Secure, HttpOnly, and SameSite. Sessions expire, rotate on privilege change, and are revoked on logout. State-changing requests require a CSRF token that is checked on the server and is not reused.
@@ -37,8 +38,32 @@ Payments, only if a later decision adds them:
 - No payment activity is set up now.
 - A qualified PCI assessment is required before card data is in scope, plus signed webhooks, replay protection, idempotent charges, and reconciliation. None of that exists in this preview.
 
+## Candidate identity architecture
+
+Not selected for implementation. No project, OAuth client, domain, or delegation has been created. Staff use of Workspace multi-factor authentication does not prove that a customer account has a second factor.
+
+The recommendation is Identity Platform, with Google as the first factor and a mandatory second factor, plus portal-owned roles. Workspace would be staff single sign-on, and only optionally a group that marks a person as eligible to be invited. Eligibility is not a client role.
+
+Checked against the published guides, not against a running project:
+
+- Verify a Google ID token on the server. Check the signature, `aud`, `iss` (`accounts.google.com` or `https://accounts.google.com`), and `exp`. Use `sub` as the stable account id. Google’s guide says email is a poor identifier because it can change, and that `sub` is not reused. Store `sub` only after a staff-controlled invite links it to the client record.
+- Google is authoritative for the address when the email ends in `@gmail.com`, or when `email_verified` is true and `hd` is set (a hosted Workspace domain). If the address is not Gmail and `hd` is absent, Google is not authoritative, and a custom-domain address can be stale. Do not treat that address as proof of the current owner.
+- Identity Platform can add TOTP as a second factor, at project or tenant level, after the user’s email is verified. Users enroll an authenticator app. The documented sign-in patterns include requiring enrollment for every user. This note did not run that enrollment.
+- Blocking functions exist for `beforeCreate` and `beforeSignIn`. `beforeSignIn` runs after the password or provider check and, when multi-factor authentication is on, after the second factor. The function can reject the attempt. Anonymous and custom authentication do not support these functions. A blocking function does not, by itself, end sessions that were already issued.
+- Identity Platform ID tokens last about an hour. Refresh tokens stop when the user is deleted, the user is disabled, or a major account change such as password or email is detected. `revokeRefreshTokens` can revoke a user’s refresh tokens. Because the ID token is a stateless JWT, the server only learns it was revoked if it verifies the token with the revocation check (`checkRevoked` / the equivalent). A disabled user fails that check. Removing someone from a Workspace group is not one of the documented reasons a refresh token expires, so group removal must not be treated as logout. The portal has to disable the user and revoke tokens, and every request has to check that state. Do not cache an allow list forever.
+- The client should be signed out or asked to sign in again after revocation. Reauthentication is a separate step. Do not promise that the first Google sign-in remains valid for a later payment or other sensitive action.
+
+Limits that the candidate must not paper over:
+
+- Workspace cannot be assumed to force Google 2-Step Verification on people outside the staff domain. That was not re-tested in an admin console here.
+- The second factor documented for this candidate is TOTP. Phone SMS is a separate Identity Platform factor and was not re-verified as a configured flow in this note. Neither is a native passkey second factor.
+- TOTP is not phishing-resistant. Staff access should be designed for passkeys or security keys. A later payment or other financial step needs its own step-up and transaction checks. Google sign-in plus TOTP is not, by itself, unconditionally sufficient for that.
+- Cross-domain group membership through the Admin SDK needs an authenticated, least-privilege call. Prefer read-only listing of direct members. Do not turn on domain-wide delegation as a convenience. Whether a given service account can read an external customer’s membership is unproven until that call is tested with the real roles. The provider API requires authorization. This repository does not have that access.
+
 ## Tests that must fail closed before launch
 
+- The account key is the identity provider `sub` or `uid` linked by a staff invite, not an email address. A changed or unverified custom-domain email does not authorize the old client record.
+- Removing a person from a Workspace eligibility group does not leave their existing session valid. The server disables the account or revokes refresh tokens, and the next request fails the revocation check.
 - A signed-in client requests another client's id and receives no data and no useful error detail.
 - A client calls a staff action and is denied.
 - A staff user without that client assignment is denied.
