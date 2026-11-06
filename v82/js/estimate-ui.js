@@ -194,6 +194,12 @@
   function render() {
     paintDates();
     var result = api.estimate(read());
+    var peakLegs = (result.dates || []).filter(function (row) { return row.status === 'peak'; }).length;
+    document.dispatchEvent(new CustomEvent('ca:estimate-result', { detail: {
+      leg_count: occHost.querySelectorAll('.est-leg').length,
+      pending: result.pending && result.pending.length ? 1 : 0,
+      peak_legs: peakLegs
+    } }));
     out.replaceChildren();
     var status = document.createElement('p');
     status.className = 'est-status';

@@ -90,3 +90,7 @@ body.menu-open .header-quote-bar{visibility:hidden}
 .leg-date-note{margin:var(--s2) 0}
 .leg-peak{border-left:3px solid var(--navy);padding-left:var(--s3)}
 .peak-flag{font-weight:600}
+.cookie-notice-reject{background:transparent;color:var(--white)}
+.cookie-customize{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s3)}
+.cookie-customize[hidden]{display:none}
+.cookie-customize input{min-width:24px;min-height:24px}

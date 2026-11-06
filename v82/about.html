@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://my.matterport.com; frame-src https://challenges.cloudflare.com https://my.matterport.com; base-uri 'self'; form-action 'self' mailto: tel:">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://my.matterport.com https://www.google-analytics.com https://www.googletagmanager.com; frame-src https://challenges.cloudflare.com https://my.matterport.com https://www.googletagmanager.com; base-uri 'self'; form-action 'self' mailto: tel:">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About Clipper Aviation | Los Angeles Charter and Maintenance · Mockup V82</title>
 <meta name="description" content="Clipper Aviation is a private charter operator and FAA Part 145 repair station based at Van Nuys Airport (VNY) in Los Angeles.">
@@ -386,11 +386,18 @@
 <script src="js/jetinsight.js" defer></script>
 <script src="js/turnstile.js" defer></script>
 <!-- V52 change 2: cookie notice (informational, shown by js/analytics.js, which also holds the Clarity and GA4 ids) -->
-<div class="cookie-notice" data-cookie-notice role="region" aria-label="Cookie notice" hidden>
-  <p class="cookie-notice-text">This preview does not load analytics or set analytics cookies. OK hides this note. Continuing to browse is not consent. Production consent is separate.</p>
+<div class="cookie-notice" data-cookie-notice role="region" aria-label="Privacy choices" hidden>
+  <p class="cookie-notice-text" data-cookie-text>Public-page measurement stays off until you choose. Continuing is not consent. This preview does not send data to Google Analytics until a property is configured and tested. Heatmaps and session replay are not loaded, and they are never used on the estimate, login, or request forms.</p>
   <div class="cookie-notice-actions">
+    <button class="cookie-notice-ok" type="button" data-consent="accept">Accept</button>
+    <button class="cookie-notice-ok cookie-notice-reject" type="button" data-consent="reject">Reject</button>
+    <button class="cookie-notice-link" type="button" data-consent="customize">Customize</button>
     <a class="cookie-notice-link" data-cookie-privacy href="privacy.html">Privacy<span class="visually-hidden"> policy</span></a>
-    <button class="cookie-notice-ok" type="button" data-cookie-ok>OK</button>
+  </div>
+  <div class="cookie-customize" data-cookie-customize hidden>
+    <label class="cookie-notice-text"><input type="checkbox" data-purpose="analytics"> Public page measurement</label>
+    <label class="cookie-notice-text"><input type="checkbox" data-purpose="replay" disabled> Heatmaps and replay are not available on these pages</label>
+    <button class="cookie-notice-ok" type="button" data-consent="save">Save choices</button>
   </div>
 </div>
 <script src="js/datalayer.js" defer></script>

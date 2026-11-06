@@ -1,9 +1,9 @@
-/* V60: GTM-ready conversion event layer. Vanilla JS, no network, no cookies, no storage.
- * It only pushes plain objects onto window.dataLayer, so it is inert until a GTM container (or something else that reads dataLayer) is loaded.
- * Event names, parameters and the GA4 / Google Ads mapping are documented in TRACKING.md. Loaded with defer on every page. */
+/* V82: this file no longer writes window.dataLayer. js/analytics.js is the only
+   measurement path, so a future GTM container is not given a second copy of the same click.
+   Mock form success is not a lead. */
 (function () {
   'use strict';
-  var dl = window.dataLayer = window.dataLayer || [];
+  var dl = [];
   var PROD = ['clipperaviation.com', 'www.clipperaviation.com'];
 
   function loc(el) {
