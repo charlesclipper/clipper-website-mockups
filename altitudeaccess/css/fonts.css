@@ -3,7 +3,7 @@
   font-style: italic;
   font-weight: 300 700;
   font-display: swap;
-  src: url(../fonts/cormorant-italic-latin.woff2) format('woff2');
+  src: url(../../shared/60/6083e8c70461baccba95129ff8c91624f81b7d29a806a18b5d5916eaa44f03c3/cormorant-italic-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
@@ -11,7 +11,7 @@
   font-style: normal;
   font-weight: 300 700;
   font-display: swap;
-  src: url(../fonts/cormorant-normal-latin.woff2) format('woff2');
+  src: url(../../shared/76/766e1b19fa74895763cef708f4b360b887e5a836725869ca672a0753bf19bd53/cormorant-normal-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
@@ -19,6 +19,6 @@
   font-style: normal;
   font-weight: 400 800;
   font-display: swap;
-  src: url(../fonts/raleway-normal-latin.woff2) format('woff2');
+  src: url(../../shared/b1/b1bef1f03a77a36fc257c5525e32a1dd621bb6f935b743a419da7ed0b18dc8f5/raleway-normal-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

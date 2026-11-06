@@ -10,9 +10,9 @@
    missing glyphs, so it is NOT embedded here. Fallback: Cormorant Garamond
    Light, uppercase, wide tracking. Swap in a licensed Coldiac webfont by
    changing --font-display only. */
-@font-face{font-family:"Cormorant Garamond";src:url("../fonts/CormorantGaramond-var.ttf") format("truetype");font-weight:300 700;font-display:swap}
-@font-face{font-family:"Hanken Grotesk";src:url("../fonts/HankenGrotesk-var.ttf") format("truetype");font-weight:100 900;font-display:swap}
-@font-face{font-family:"Philosopher";src:url("../fonts/Philosopher-Italic.ttf") format("truetype");font-style:italic;font-weight:400;font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url("../../shared/b2/b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0/CormorantGaramond-var.ttf") format("truetype");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url("../../shared/81/813b3f8fa0965405669a89b38e51bbefd95eef6b8e20d1cb2d8c10cce062662f/HankenGrotesk-var.ttf") format("truetype");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Philosopher";src:url("../../shared/1e/1ec5f0cc140a5daefca74692c1693c224aaac6936b8eda16598d56eba94cf008/Philosopher-Italic.ttf") format("truetype");font-style:italic;font-weight:400;font-display:swap}
 
 /* ---------- Design tokens ---------- */
 :root{

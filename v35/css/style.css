@@ -10,9 +10,9 @@
    missing glyphs, so it is NOT embedded here. Fallback: Cormorant Garamond
    Light, uppercase, wide tracking. Swap in a licensed Coldiac webfont by
    changing --font-display only. */
-@font-face{font-family:"Cormorant Garamond";src:url("../fonts/CormorantGaramond-var.ttf") format("truetype");font-weight:300 700;font-display:swap}
-@font-face{font-family:"Hanken Grotesk";src:url("../fonts/HankenGrotesk-var.ttf") format("truetype");font-weight:100 900;font-display:swap}
-@font-face{font-family:"Philosopher";src:url("../fonts/Philosopher-Italic.ttf") format("truetype");font-style:italic;font-weight:400;font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url("../../shared/b2/b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0/CormorantGaramond-var.ttf") format("truetype");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url("../../shared/81/813b3f8fa0965405669a89b38e51bbefd95eef6b8e20d1cb2d8c10cce062662f/HankenGrotesk-var.ttf") format("truetype");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Philosopher";src:url("../../shared/1e/1ec5f0cc140a5daefca74692c1693c224aaac6936b8eda16598d56eba94cf008/Philosopher-Italic.ttf") format("truetype");font-style:italic;font-weight:400;font-display:swap}
 
 /* ---------- Design tokens ---------- */
 :root{
@@ -1849,10 +1849,10 @@ body main>section.hero.hero.hero--charter.hero--home{--focus:50% 66%}
    14 KB and 24 KB). The browser only downloads a face when something on the page uses it, so with "Current" selected nothing extra loads and the page is the same as V34.
    size-adjust matches the cap height of Cormorant (0.625 em); ascent-override and descent-override (divided by size-adjust) put the baseline at the same place in the line box as Cormorant,
    so the V32 title and subtitle rhythm (.23em descent share) and the line heights stay valid. font-display:swap everywhere. Body (Hanken Grotesk) and pull quotes (Philosopher) are not touched. */
-@font-face{font-family:"Cinzel";src:url("../fonts/Cinzel-400-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;
+@font-face{font-family:"Cinzel";src:url("../../shared/b8/b873cdd90d6bd9ca4793c805b4175abfae00b3611ee8afccf63067133dcf1217/Cinzel-400-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;
   size-adjust:90%;ascent-override:102.7%;descent-override:31.9%;line-gap-override:0%;
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:"Forum";src:url("../fonts/Forum-400-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;
+@font-face{font-family:"Forum";src:url("../../shared/21/21eb0ef1c5f416bd7837e9bcf5c0ba1b026a9d56e5aed213871957ff442cae1d/Forum-400-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;
   size-adjust:96%;ascent-override:96.3%;descent-override:29.9%;line-gap-override:0%;
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 html[data-hf="cinzel"]{--font-display:"Cinzel","Times New Roman",serif}
