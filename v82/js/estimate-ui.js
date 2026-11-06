@@ -162,12 +162,6 @@
     var list = document.createElement('ul');
     rows.forEach(function (row) {
       var item = document.createElement('li');
-      if (row.status === 'peak') {
-        var flag = document.createElement('strong');
-        flag.className = 'peak-flag';
-        flag.textContent = 'Peak day. ';
-        item.appendChild(flag);
-      }
       item.appendChild(document.createTextNode(dateSentence(row)));
       list.appendChild(item);
     });
