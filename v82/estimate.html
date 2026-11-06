@@ -57,8 +57,8 @@
 <section class="section bg-paper legal">
   <div class="container legal-inner">
     <h1 class="h1">Trip estimate preview</h1>
-    <h2 class="h3">Quoted times</h2>
-    <p class="est-status">Scenario tool only. The figure below is a known-charges subtotal, not a quote, not availability, and not a full trip price. Average quoted time is not loaded: no file of Clipper’s own JetInsight historical quoted leg times has been retrieved. No other operator or flight-tracking source is used. An average quoted time is not a flown actual and not a confirmed final billable time. Type a quoted time for this scenario in each leg. Do not put flown or billed actuals in those fields. Brochure times, when shown, are not quoted times. Repositioning is not added unless you add a leg.</p>
+    <h2 class="h3">Quoted block times</h2>
+    <p class="est-status">Scenario tool only. The figure below is a known-charges subtotal, not a quote, not availability, and not a full trip price. Average quoted block time is not loaded: no file of Clipper’s own JetInsight historical quoted block hours has been retrieved. No other operator or flight-tracking source is used. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time. Type a quoted block time for this scenario in each leg. Do not put flown or billed times in those fields. Brochure times, when shown, are not quoted block times. Repositioning is not added unless you add a leg.</p>
     <form id="estimate-form" novalidate>
       <div id="occ-legs"></div>
       <p class="est-actions"><button type="button" id="add-occ">Add an occupied leg</button></p>
@@ -104,10 +104,10 @@
         <legend>Occupied leg</legend>
         <div class="field"><label>From <select class="leg-from" aria-label="From"></select></label></div>
         <div class="field"><label>To <select class="leg-to" aria-label="To"></select></label></div>
-        <p class="avg-quoted"><strong>Average quoted time:</strong> Not loaded. No Clipper JetInsight quoted-time file has been retrieved. An average quoted time is not a flown actual and not a confirmed final billable time.</p>
-        <p>Quoted time for this scenario. This is what you type. It is not an average quoted time, not JetInsight data, and not a flown or billed actual.</p>
-        <div class="field"><label>Quoted time hours <input class="leg-hours" inputmode="numeric" autocomplete="off" aria-label="Quoted time hours for this scenario"></label></div>
-        <div class="field"><label>Quoted time minutes <input class="leg-minutes" inputmode="numeric" autocomplete="off" aria-label="Quoted time minutes for this scenario"></label></div>
+        <p class="avg-quoted"><strong>Average quoted block time:</strong> Not loaded. No Clipper JetInsight quoted-block file has been retrieved. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time.</p>
+        <p>Quoted block time for this scenario. This is what you type. It is not an average quoted block time, not JetInsight data, and not a flown or billed time.</p>
+        <div class="field"><label>Quoted block time hours <input class="leg-hours" inputmode="numeric" autocomplete="off" aria-label="Quoted block time hours for this scenario"></label></div>
+        <div class="field"><label>Quoted block time minutes <input class="leg-minutes" inputmode="numeric" autocomplete="off" aria-label="Quoted block time minutes for this scenario"></label></div>
         <p class="pub-hint" hidden></p>
         <button type="button" class="remove-leg">Remove this leg</button>
       </fieldset>

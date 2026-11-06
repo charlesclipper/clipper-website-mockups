@@ -2,9 +2,10 @@
    Published money rules are from the V81 AltitudeAccess page and brochure
    shared/80/802cda35.../Clipper-Aviation-AltitudeAccess-Brochure.pdf
    (60,271,047 bytes, sha256 802cda35...453409).
-   Quoted times, per Charles on 5 Nov 2026: route averages will be Clipper's own
-   JetInsight historical quoted leg times only. None are loaded. Typed minutes are
-   a scenario quoted time, not that average, and not flown or billed actuals.
+   Quoted block times, per Charles on 5 Nov 2026: a future average will be
+   Clipper's own JetInsight historical quoted block hours on flown legs only.
+   None are loaded. Typed minutes are a scenario quoted block time, not that
+   average, and not a flown, billed, or airborne time.
    Repositioning applicability, mile unit, and the 800-mile gap stay unpublished. */
 (function (root, factory) {
   var api = factory();
@@ -115,7 +116,7 @@
     var sawIntl = false;
     var legs = input.occupied || [];
 
-    if (!legs.length) errors.push('Add at least one occupied leg and enter a quoted time for this scenario. A route name is not a time. Average quoted time is not loaded.');
+    if (!legs.length) errors.push('Add at least one occupied leg and enter a quoted block time for this scenario. A route name is not a time. Average quoted block time is not loaded.');
 
     legs.forEach(function (leg, index) {
       var n = index + 1;
@@ -128,10 +129,10 @@
       var mins = intField(leg.minutes, 'Leg ' + n + ' minutes', 0, 59);
       if (hours.status === 'invalid') errors.push(hours.message);
       if (mins.status === 'invalid') errors.push(mins.message);
-      if (hours.status === 'empty' || mins.status === 'empty') errors.push('Leg ' + n + ' needs a quoted time. Leave hours or minutes at 0 only when the other is greater than 0. Brochure times and flown actuals are not a substitute.');
+      if (hours.status === 'empty' || mins.status === 'empty') errors.push('Leg ' + n + ' needs a quoted block time. Leave hours or minutes at 0 only when the other is greater than 0. Brochure times, flown time, and billed time are not a substitute.');
       if (hours.status === 'ok' && mins.status === 'ok') {
         var total = hours.value * 60 + mins.value;
-        if (total <= 0) errors.push('Leg ' + n + ' quoted time is 0. Enter a quoted time for this scenario, or remove the leg. Do not substitute a brochure time or a flown actual.');
+        if (total <= 0) errors.push('Leg ' + n + ' quoted block time is 0. Enter a quoted block time for this scenario, or remove the leg. Do not substitute a brochure time, a flown time, or a billed time.');
         else if (total > 24 * 60) errors.push('Leg ' + n + ' is longer than 24 hours. This preview rejects that as an entry guard, not as a published limit.');
         else {
           occupiedMinutes += total;
@@ -164,8 +165,8 @@
       var occCents = centsFromMinutes(occupiedMinutes);
       lines.push({
         kind: 'occupied',
-        label: 'Quoted time',
-        detail: occupiedMinutes + ' quoted min entered for this scenario × $5,500 / 60, rounded half-up to the cent once after the minutes are added. This is not an average quoted time. No Clipper JetInsight quoted-time file is loaded. It is not a flown actual and not a confirmed final billable time. Taxes and fees are already in the rate and are not added again.',
+        label: 'Quoted block time',
+        detail: occupiedMinutes + ' quoted block min entered for this scenario × $5,500 / 60, rounded half-up to the cent once after the minutes are added. This is not an average quoted block time. No Clipper JetInsight quoted-block file is loaded. It is not a flown time, not a billed time, and not a confirmed final billable time. Taxes and fees are already in the rate and are not added again.',
         cents: occCents
       });
     }
@@ -290,7 +291,7 @@
       fullTotal: false,
       status: pending.length
         ? 'Known charges subtotal only. Pending items below are not priced and are not treated as $0. This is not a full trip price.'
-        : 'Known charges subtotal for the items in this scenario. The minutes are a quoted time typed here, not an average quoted time. No Clipper JetInsight quoted-time file is loaded. Repositioning applicability is still unresolved, so this is not a full trip price.',
+        : 'Known charges subtotal for the items in this scenario. The minutes are a quoted block time typed here, not an average quoted block time. No Clipper JetInsight quoted-block file is loaded. Repositioning applicability is still unresolved, so this is not a full trip price.',
       errors: [],
       lines: lines,
       pending: pending,
@@ -319,7 +320,7 @@
       ? 'You added ' + repoCount + ' unoccupied repositioning leg(s) as a scenario. The program does not state when repositioning is charged, how many legs, or whether the miles are statute or nautical. The flat fee uses only the number you typed.'
       : 'No repositioning leg is in this scenario. Whether one applies (for example from or back to Van Nuys) is not published. Do not read the subtotal as a full trip price.';
     return [
-      'Quoted times, set by Charles on 5 Nov 2026. Average quoted time will be a directional route average of Clipper’s own JetInsight historical quoted leg times only. No other operator, marketplace, or flight-tracking source is used. No quoted-time file has been retrieved, so nothing below is an average quoted time or JetInsight data. The minutes in the subtotal are the quoted time typed for this scenario. Historical quote averages are not flown actuals and not a confirmed final billable time. A rounding increment and a minimum are still unpublished. The subtotal adds the entered quoted minutes, multiplies by $5,500 / 60, and rounds half-up to the cent once. That cent step is display math, not a published billing rule.',
+      'Quoted block times, set by Charles on 5 Nov 2026. Average quoted block time will be the mean quoted block hours on completed Clipper legs, from Clipper’s own JetInsight records only, kept as a separate direction for each airport pair and kept apart by aircraft type. No other operator, marketplace, or flight-tracking source is used. No quoted-block file has been retrieved, so nothing below is an average quoted block time or JetInsight data. The minutes in the subtotal are the quoted block time typed for this scenario. A historical quote average is not a flown time, not a billed time, and not a confirmed final billable time. A rounding increment and a minimum are still unpublished. The subtotal adds the entered quoted block minutes, multiplies by $5,500 / 60, and rounds half-up to the cent once. That cent step is display math, not a published billing rule.',
       repo,
       'The same-day $1,000 surcharge is added only when you select it. Whether it stacks with or replaces repositioning is not published.',
       'Standard stocking, Wi-Fi, and FBO and landing fees stay inside the occupied-hour rate. They are not added again.',
@@ -337,7 +338,7 @@
     return {
       minutes: named.publishedMinutes,
       place: named.label,
-      text: 'Brochure reference only, not an average quoted time and not JetInsight data: about ' + Math.floor(named.publishedMinutes / 60) + 'h ' + (named.publishedMinutes % 60) + 'm for ' + named.label + '. The website says Los Angeles / Southern California. The brochure footnote names Van Nuys. Do not enter this figure as the quoted time unless you mean it as your own scenario entry. It is not a flown actual.'
+      text: 'Brochure reference only, not an average quoted block time and not JetInsight data: about ' + Math.floor(named.publishedMinutes / 60) + 'h ' + (named.publishedMinutes % 60) + 'm for ' + named.label + '. The website says Los Angeles / Southern California. The brochure footnote names Van Nuys. Do not enter this figure as the quoted block time. It is not a flown time and not a billed time.'
     };
   }
 
