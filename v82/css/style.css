@@ -62,7 +62,7 @@ html body .site-header .header-quote-bar .header-quote{display:inline-flex;point
 body.modal-open .header-quote-bar,
 body.menu-open .header-quote-bar{visibility:hidden}
 @media (max-width:599.98px){
-  html body .site-header .header-quote-bar .header-quote{min-height:44px}
+  html body .site-header .header-quote-bar .header-quote{min-height:44px;padding:0 16px;border-radius:999px;background:var(--white);color:var(--navy);border:1px solid var(--navy);font:600 .625rem/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;gap:0}
   body main>section.hero.hero.hero .hero-tagline-wrap{padding-top:calc(44px + var(--s2) + var(--s3))}
 }
 .login-panel{max-width:26rem;margin-top:var(--s6);background:var(--white);border:1px solid var(--line);padding:var(--s6) var(--s5)}

@@ -224,28 +224,7 @@
     }
 
     if (input.pets) {
-      var tier = String(input.tier || '');
-      if (tier === '25' || tier === '50') {
-        lines.push({
-          kind: 'pets',
-          label: 'Pet travel',
-          detail: 'Included for the ' + tier + '-hour tier. $0 added.',
-          cents: 0
-        });
-      } else if (tier === '10') {
-        if (input.petMode === 'once') {
-          lines.push({
-            kind: 'pets',
-            label: 'Pet travel (scenario assumption)',
-            detail: 'Brochure: "$500 per flight" for the 10-hour tier. The site does not say per flight. Whether "per flight" means per leg or per trip is not settled, so this scenario counts $500 once. It is not a published per-leg rule.',
-            cents: 50000
-          });
-        } else {
-          pending.push('Pet travel for the 10-hour tier is $500 per flight in the brochure. Leg versus trip is not defined, so the charge is pending until you choose to count $500 once for this scenario.');
-        }
-      } else {
-        pending.push('Pets are selected. Choose the 10-, 25-, or 50-hour tier. The hourly rate does not change; the pet rule does.');
-      }
+      pending.push('Pet travel is selected and is not in the known subtotal. The brochure says $500 per flight for the 10-hour tier and includes pets for the 25- and 50-hour tiers. Whether per flight means per leg or per trip is not confirmed, so this preview adds neither $500 nor $0.');
     }
 
     addPassThrough(lines, pending, errors, input.catering, 'Special catering', 'No rate is published. Standard stocking is already in the hourly rate.');
