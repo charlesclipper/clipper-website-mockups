@@ -15,7 +15,7 @@
 <link rel="preload" href="../shared/7a/7a724ff84b36366eeb5c55b8b14fa05aeb3f0f183786ea662c904de0689a47dd/CormorantGaramond-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="page-estimate">
 <a class="skip-link" href="#main">Skip to main content</a>
 <!-- ============ HEADER ============
      LOGO PLACEHOLDER: existing site SVG (Clipper-Aviationj-Logo.svg) recolored black. V2: header is always solid white.
@@ -57,9 +57,9 @@
     <p class="est-status">Scenario tool only. The figure below is a known-charges subtotal, not a quote, not availability, and not a full trip price. Average quoted block time is not loaded: no file of Clipper’s own JetInsight historical quoted block hours has been retrieved. No other operator or flight-tracking source is used. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time. Type a quoted block time for this scenario in each leg. Do not put flown or billed times in those fields. Brochure times, when shown, are not quoted block times. Repositioning is not added unless you add a leg.</p>
     <form id="estimate-form" novalidate>
       <div id="occ-legs"></div>
-      <p class="est-actions"><button type="button" id="add-occ">Add an occupied leg</button></p>
+      <p class="est-actions"><button class="btn" type="button" id="add-occ">Add an occupied leg</button></p>
       <div id="repo-legs"></div>
-      <p class="est-actions"><button type="button" id="add-repo">Add a repositioning leg to this scenario</button></p>
+      <p class="est-actions"><button class="btn" type="button" id="add-repo">Add a repositioning leg to this scenario</button></p>
       <p>Whether a repositioning leg applies, and whether miles are statute or nautical, is not published. Nothing here converts a map into miles or time.</p>
       <div class="field"><label for="est-pax">Passengers</label><input id="est-pax" inputmode="numeric" autocomplete="off" placeholder="1–9"></div>
       <div class="field"><label for="est-nights">Crew overnight nights</label><input id="est-nights" inputmode="numeric" autocomplete="off" placeholder="Blank leaves it out. 0 is an explicit zero."></div>
@@ -99,12 +99,12 @@
         <div class="field"><label>To <select class="leg-to" aria-label="To"></select></label></div>
         <p class="avg-quoted"><strong>Average quoted block time:</strong> Not loaded. No Clipper JetInsight quoted-block file has been retrieved. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time.</p>
         <p>Quoted block time for this scenario. This is what you type. It is not an average quoted block time, not JetInsight data, and not a flown or billed time.</p>
-        <div class="field"><label>Requested departure date <input class="leg-date" type="date" aria-label="Requested departure date"></label> <button type="button" class="clear-date">Clear date</button></div>
+        <div class="field"><label>Requested departure date <input class="leg-date" type="date" aria-label="Requested departure date"></label> <button class="btn clear-date" type="button">Clear date</button></div>
         <p class="leg-date-note" aria-live="polite"></p>
         <div class="field"><label>Quoted block time hours <input class="leg-hours" inputmode="numeric" autocomplete="off" aria-label="Quoted block time hours for this scenario"></label></div>
         <div class="field"><label>Quoted block time minutes <input class="leg-minutes" inputmode="numeric" autocomplete="off" aria-label="Quoted block time minutes for this scenario"></label></div>
         <p class="pub-hint" hidden></p>
-        <button type="button" class="remove-leg">Remove this leg</button>
+        <button class="btn remove-leg" type="button">Remove this leg</button>
       </fieldset>
     </template>
     <template id="repo-template">
@@ -112,7 +112,7 @@
         <legend>Repositioning leg</legend>
         <div class="field"><label>Miles you are entering <input class="repo-miles" inputmode="decimal" autocomplete="off" aria-label="Miles"></label></div>
         <p>Type the miles for this scenario. Exactly 800, and the fractional gaps between the published bands, stay unpriced.</p>
-        <button type="button" class="remove-repo">Remove this repositioning leg</button>
+        <button class="btn remove-repo" type="button">Remove this repositioning leg</button>
       </fieldset>
     </template>
   </div>

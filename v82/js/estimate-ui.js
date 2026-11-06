@@ -148,6 +148,9 @@
     Array.prototype.forEach.call(occHost.querySelectorAll('.est-leg'), function (leg, index) {
       var classified = api.classifyDate(leg.querySelector('.leg-date').value);
       var note = leg.querySelector('.leg-date-note');
+      note.id = 'leg-date-note-' + (index + 1);
+      var dateInput = leg.querySelector('.leg-date');
+      if (dateInput) dateInput.setAttribute('aria-describedby', note.id);
       note.textContent = 'Leg ' + (index + 1) + '. ' + dateSentence(classified);
       note.classList.toggle('leg-peak', classified.status === 'peak');
       rows.push({ leg: index + 1, status: classified.status, iso: classified.iso || '', year: classified.year || null });

@@ -80,7 +80,12 @@ body.menu-open .header-quote-bar{visibility:hidden}
 .est-leg,.repo-leg{border:0;border-top:1px solid var(--line);margin:var(--s4) 0 0;padding:var(--s4) 0 0}
 .leg-card{border:1px solid var(--line);background:var(--white);padding:var(--s5);margin:0 0 var(--s4)}
 .leg-card h2{margin:0 0 var(--s2)}
-.est-actions button,.leg-card .btn,.remove-leg,.remove-repo{min-height:44px}
+.page-estimate .est-actions .btn,.page-estimate .clear-date,.page-estimate .remove-leg,.page-estimate .remove-repo{min-height:44px;background:var(--white);color:var(--navy);-webkit-appearance:none;appearance:none}
+@media (max-width:599.98px){
+  body.page-estimate{scroll-padding-top:calc(var(--header-h) + 60px);scroll-padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+  body.page-estimate .legal-inner{padding-right:calc(143px + var(--s4))}
+  body.page-estimate .est-leg,body.page-estimate .field,body.page-estimate .est-status{scroll-margin-top:calc(var(--header-h) + 60px);scroll-margin-bottom:88px}
+}
 .pub-hint,.leg-date-note{font-size:1rem;line-height:1.45}
 .leg-date-note{margin:var(--s2) 0}
 .leg-peak{border-left:3px solid var(--navy);padding-left:var(--s3)}
