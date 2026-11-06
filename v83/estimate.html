@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="ca-measure" content="no-replay">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://my.matterport.com https://www.google-analytics.com https://www.googletagmanager.com; frame-src 'self' https://challenges.cloudflare.com https://my.matterport.com https://www.googletagmanager.com; base-uri 'self'; form-action 'self' mailto: tel:">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trip estimate preview | Clipper Aviation (Mockup V83)</title>
+<meta name="description" content="Design preview of an AltitudeAccess trip estimate. Not a quote or a booking.">
+<!-- MOCKUP ONLY: noindex,nofollow. Remove at launch. -->
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="../shared/c7/c7ce486d91ff6e56488e569373a3a8cdedd3e07a27588caffd79dcae0916cba7/favicon-black-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../shared/35/35699a2f3bd18fdaad043fe1cd7ec5074689ab81aa70b7a14a42043418c03c91/favicon-black-16.png">
+<link rel="icon" type="image/svg+xml" href="../shared/94/94598084fad9bbd111cc6a1922cdf68c9505ba698edc3c0eebd1742f38f421a8/favicon-adaptive.svg">
+<link rel="preload" href="../shared/7d/7defa9402541ef2f9740ee209c2e6e04c44afa37406b006b8ca4aa613f11108c/HankenGrotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../shared/7a/7a724ff84b36366eeb5c55b8b14fa05aeb3f0f183786ea662c904de0689a47dd/CormorantGaramond-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-estimate">
+<a class="skip-link" href="#main">Skip to main content</a>
+<!-- ============ HEADER ============
+     LOGO PLACEHOLDER: existing site SVG (Clipper-Aviationj-Logo.svg) recolored black. V2: header is always solid white.
+     White version shows over photo heroes, navy version once the header turns solid.
+     Replace with the final white-on-black / black-on-white logo files when supplied. -->
+<header class="site-header is-solid">
+  <div class="container">
+    <a class="logo" href="index.html" aria-label="Clipper Aviation: Home">
+      
+      <img class="logo-black" src="../shared/2c/2c5982b6937bcc81fd0de1de79400058a5cbece49fe02c1fb57d06be59e21e83/logo-black.svg" alt="Clipper Aviation" width="610" height="264">
+    </a>
+    <nav aria-label="Main"><ul role="list" class="nav"><li class="has-dropdown"><a class="nav-link" href="charter.html">Charter</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-charter" aria-label="Charter submenu"><span class="caret" aria-hidden="true"></span></button><ul role="list" class="dropdown" id="dd-charter"><li><a href="charter.html#fleet">Fleet</a></li><li><a href="charter.html#service">Service</a></li><li><a href="charter.html#safety">Safety</a></li><li><a href="charter.html#management">Management</a></li></ul></li><li class="has-dropdown"><a class="nav-link" href="altitudeaccess.html">AltitudeAccess</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-altitudeaccess" aria-label="AltitudeAccess submenu"><span class="caret" aria-hidden="true"></span></button><ul role="list" class="dropdown" id="dd-altitudeaccess"><li><a href="altitudeaccess.html#program-structure">Program</a></li><li><a href="altitudeaccess.html#signature-trips">Trips</a></li><li><a href="altitudeaccess.html#membership">Membership</a></li></ul></li><li class="has-dropdown"><a class="nav-link" href="maintenance.html">Maintenance</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-maintenance" aria-label="Maintenance submenu"><span class="caret" aria-hidden="true"></span></button><ul role="list" class="dropdown" id="dd-maintenance"><li><a href="maintenance.html#capabilities">Capabilities</a></li><li><a href="maintenance.html#certificates">Certificates</a></li></ul></li><li class="has-dropdown"><a class="nav-link" href="about.html">About</a><button class="dd-toggle" type="button" aria-expanded="false" aria-controls="dd-about" aria-label="About submenu"><span class="caret" aria-hidden="true"></span></button><ul role="list" class="dropdown" id="dd-about"><li><a href="about.html#team">Team</a></li><li><a href="about.html#facilities">Facilities</a></li></ul></li></ul></nav>
+    <div class="header-cta">
+      <a class="btn btn-primary header-login" href="client-login.html" aria-label="Client Login"><span class="btn-sizer" aria-hidden="true">Request a Quote</span><span class="btn-label">Client Login</span></a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-open><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="header-quote-bar">
+    <div class="container">
+      <div class="header-cta">
+        <button class="btn btn-primary header-quote" type="button" data-quote-open aria-haspopup="dialog">Request a Quote</button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <button class="mobile-close" type="button" aria-label="Close menu" data-menu-close>&times;</button>
+  <a class="m-main" href="charter.html">Charter</a><div class="m-sub"><a href="charter.html#fleet">Fleet</a><a href="charter.html#service">Service</a><a href="charter.html#safety">Safety</a><a href="charter.html#management">Management</a></div><a class="m-main" href="altitudeaccess.html">AltitudeAccess</a><div class="m-sub"><a href="altitudeaccess.html#program-structure">Program</a><a href="altitudeaccess.html#signature-trips">Trips</a><a href="altitudeaccess.html#membership">Membership</a></div><a class="m-main" href="maintenance.html">Maintenance</a><div class="m-sub"><a href="maintenance.html#capabilities">Capabilities</a><a href="maintenance.html#certificates">Certificates</a></div><a class="m-main" href="about.html">About</a><div class="m-sub"><a href="about.html#team">Team</a><a href="about.html#facilities">Facilities</a></div>
+  <a class="btn btn-primary" href="client-login.html">Client Login</a>
+  <a class="small" href="tel:+18554635999">+1 (855) 463-5999</a>
+</div>
+<div class="mockup-badge" aria-hidden="true">Mockup V83</div>
+
+<main id="main" tabindex="-1" class="page-legal">
+<section class="section bg-paper legal">
+  <div class="container legal-inner">
+    <h1 class="h1">Trip estimate preview</h1>
+    <h2 class="h3">Quoted block times</h2>
+    <p class="est-status">Scenario tool only. The figure below is a known-charges subtotal, not a quote, not availability, and not a full trip price. Average quoted block time is not loaded: no file of Clipper’s own JetInsight historical quoted block hours has been retrieved. No other operator or flight-tracking source is used. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time. Type a quoted block time for this scenario in each leg. Do not put flown or billed times in those fields. Brochure times, when shown, are not quoted block times. Repositioning is not added unless you add a leg.</p>
+    <form id="estimate-form" novalidate>
+      <div id="occ-legs">
+      <fieldset class="est-leg">
+        <legend>Occupied leg 1</legend>
+        <div class="field"><label>From <select class="leg-from" aria-label="From"></select></label></div>
+        <div class="field"><label>To <select class="leg-to" aria-label="To"></select></label></div>
+        <p class="avg-quoted"><strong>Average quoted block time:</strong> Not loaded. No Clipper JetInsight quoted-block file has been retrieved. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time.</p>
+        <p>Quoted block time for this scenario. This is what you type. It is not an average quoted block time, not JetInsight data, and not a flown or billed time.</p>
+        <div class="field"><label>Requested departure date <input class="leg-date" type="date" aria-label="Requested departure date"></label> <button class="btn clear-date" type="button">Clear date</button></div>
+        <p class="leg-date-note" aria-live="polite"></p>
+        <div class="field"><label>Quoted block time hours <input class="leg-hours" inputmode="numeric" autocomplete="off" aria-label="Quoted block time hours for this scenario"></label></div>
+        <div class="field"><label>Quoted block time minutes <input class="leg-minutes" inputmode="numeric" autocomplete="off" aria-label="Quoted block time minutes for this scenario"></label></div>
+        <p class="pub-hint">Brochure reference only, not an average quoted block time and not JetInsight data: about 0h 50m for Las Vegas. The website says Los Angeles / Southern California. The brochure footnote names Van Nuys. Do not enter this figure as the quoted block time. It is not a flown time and not a billed time.</p>
+        <button class="btn remove-leg" type="button">Remove this leg</button>
+      </fieldset>
+      </div>
+      <p class="est-actions"><button class="btn" type="button" id="add-occ">Add an occupied leg</button></p>
+      <div id="repo-legs"></div>
+      <p class="est-actions"><button class="btn" type="button" id="add-repo">Add a repositioning leg to this scenario</button></p>
+      <p>Whether a repositioning leg applies, and whether miles are statute or nautical, is not published. Nothing here converts a map into miles or time.</p>
+      <div class="field"><label for="est-pax">Passengers</label><input id="est-pax" inputmode="numeric" autocomplete="off" placeholder="1–9"></div>
+      <div class="field"><label for="est-nights">Crew overnight nights</label><input id="est-nights" inputmode="numeric" autocomplete="off" placeholder="Blank leaves it out. 0 is an explicit zero."></div>
+      <p><label><input id="est-sameday" type="checkbox"> Include the $1,000 same-day round-trip surcharge in this scenario</label></p>
+      <p>That surcharge is published “up to crew rest limitations.” What counts as same-day, and whether the $1,000 replaces a repositioning fee, is not published.</p>
+      <div class="field"><label for="est-tier">Hour commitment, only if you are pricing pets</label>
+        <select id="est-tier"><option value="">Not selected</option><option value="10">10 hours</option><option value="25">25 hours</option><option value="50">50 hours</option></select>
+      </div>
+      <p>The occupied-hour rate is $5,500 on every tier. The tier does not change that rate.</p>
+      <p><label><input id="est-pets" type="checkbox"> Pets on this scenario</label></p>
+      <p>The brochure says “$500 per flight” for the 10-hour tier and includes pet travel for the 25- and 50-hour tiers. Per flight is not confirmed as per leg or per trip, so pets stay pending. This preview does not add $500 or $0.</p>
+      <div class="field"><label for="est-catering-mode">Special catering</label>
+        <select id="est-catering-mode"><option value="off">Not in this scenario</option><option value="pending">Needed, amount unknown</option><option value="amount">Use the amount I enter</option></select>
+      </div>
+      <div class="field"><label for="est-catering-amt">Catering amount, USD</label><input id="est-catering-amt" inputmode="decimal" autocomplete="off"></div>
+      <div class="field"><label for="est-hangar-mode">Weather hangaring and de-icing</label>
+        <select id="est-hangar-mode"><option value="off">Not in this scenario</option><option value="pending">Applies, amount unknown</option><option value="amount">Use the amount I enter</option></select>
+      </div>
+      <div class="field"><label for="est-hangar-amt">Hangar / de-ice amount, USD</label><input id="est-hangar-amt" inputmode="decimal" autocomplete="off"></div>
+      <p>The brochure limits this to “away from base.” The website does not. This preview never adds it on its own.</p>
+      <div class="field"><label for="est-event-mode">Special-event surcharge</label>
+        <select id="est-event-mode"><option value="off">Not in this scenario</option><option value="pending">Applies, amount unknown</option><option value="amount">Use the amount I enter</option></select>
+      </div>
+      <div class="field"><label for="est-event-amt">Special-event amount, USD</label><input id="est-event-amt" inputmode="decimal" autocomplete="off"></div>
+      <div class="field"><label for="est-intl-mode">International handling</label>
+        <select id="est-intl-mode"><option value="off">Only if a listed international place is selected</option><option value="pending">Include it as pending</option><option value="amount">Use the amount I enter</option></select>
+      </div>
+      <div class="field"><label for="est-intl-amt">International handling amount, USD</label><input id="est-intl-amt" inputmode="decimal" autocomplete="off"></div>
+      <p class="est-actions"><button class="btn btn-primary" type="submit">Update subtotal</button></p>
+    </form>
+    <div id="peak-panel" aria-live="polite"></div>
+    <div id="estimate-out" aria-live="polite"></div>
+    <template id="occ-template">
+      <fieldset class="est-leg">
+        <legend>Occupied leg</legend>
+        <div class="field"><label>From <select class="leg-from" aria-label="From"></select></label></div>
+        <div class="field"><label>To <select class="leg-to" aria-label="To"></select></label></div>
+        <p class="avg-quoted"><strong>Average quoted block time:</strong> Not loaded. No Clipper JetInsight quoted-block file has been retrieved. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time.</p>
+        <p>Quoted block time for this scenario. This is what you type. It is not an average quoted block time, not JetInsight data, and not a flown or billed time.</p>
+        <div class="field"><label>Requested departure date <input class="leg-date" type="date" aria-label="Requested departure date"></label> <button class="btn clear-date" type="button">Clear date</button></div>
+        <p class="leg-date-note" aria-live="polite"></p>
+        <div class="field"><label>Quoted block time hours <input class="leg-hours" inputmode="numeric" autocomplete="off" aria-label="Quoted block time hours for this scenario"></label></div>
+        <div class="field"><label>Quoted block time minutes <input class="leg-minutes" inputmode="numeric" autocomplete="off" aria-label="Quoted block time minutes for this scenario"></label></div>
+        <p class="pub-hint" hidden></p>
+        <button class="btn remove-leg" type="button">Remove this leg</button>
+      </fieldset>
+    </template>
+    <template id="repo-template">
+      <fieldset class="repo-leg">
+        <legend>Repositioning leg</legend>
+        <div class="field"><label>Miles you are entering <input class="repo-miles" inputmode="decimal" autocomplete="off" aria-label="Miles"></label></div>
+        <p>Type the miles for this scenario. Exactly 800, and the fractional gaps between the published bands, stay unpriced.</p>
+        <button class="btn remove-repo" type="button">Remove this repositioning leg</button>
+      </fieldset>
+    </template>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER (light) ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <!-- LOGO PLACEHOLDER (navy recolor of existing SVG) -->
+        <a class="footer-logo-link" href="index.html" aria-label="Clipper Aviation: Home"><img class="footer-logo" src="../shared/28/28c65e19edef669f3a51a2200b3e82febde2a8b4941c3bb46d1bc1f1410a1656/ca-monogram-navy.svg" alt="Clipper Aviation" width="152" height="95"></a>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul role="list">
+          <li><a href="tel:+18554635999">+1 (855) 463-5999</a></li>
+          <li><a href="mailto:info@clipperaviation.com">info@clipperaviation.com</a></li>
+          <li>7900 Balboa Blvd.<br>Van Nuys, CA 91406</li>
+        </ul>
+      </div>
+      <div class="f-group" data-f-group>
+        <h3 class="f-h-desk"><a href="charter.html">Charter</a></h3>
+        <h3 class="f-h-mob"><button type="button" class="f-toggle" id="f-charter-btn" aria-expanded="false" aria-controls="f-charter">Charter</button></h3>
+        <ul role="list" id="f-charter"><li><a href="charter.html#fleet">Fleet</a></li><li><a href="charter.html#service">Service</a></li><li><a href="charter.html#safety">Safety</a></li><li><a href="charter.html#management">Management</a></li></ul>
+      </div>
+      <div class="f-group" data-f-group>
+        <h3 class="f-h-desk"><a href="altitudeaccess.html">AltitudeAccess</a></h3>
+        <h3 class="f-h-mob"><button type="button" class="f-toggle" id="f-aa-btn" aria-expanded="false" aria-controls="f-aa">AltitudeAccess</button></h3>
+        <ul role="list" id="f-aa"><li><a href="altitudeaccess.html#program-structure">Program</a></li><li><a href="altitudeaccess.html#signature-trips">Trips</a></li><li><a href="altitudeaccess.html#membership">Membership</a></li></ul>
+      </div>
+      <div class="f-group" data-f-group>
+        <h3 class="f-h-desk"><a href="maintenance.html">Maintenance</a></h3>
+        <h3 class="f-h-mob"><button type="button" class="f-toggle" id="f-mx-btn" aria-expanded="false" aria-controls="f-mx">Maintenance</button></h3>
+        <ul role="list" id="f-mx"><li><a href="maintenance.html#capabilities">Capabilities</a></li><li><a href="maintenance.html#certificates">Certificates</a></li></ul>
+      </div>
+      <div class="f-group" data-f-group>
+        <h3 class="f-h-desk">Company</h3>
+        <h3 class="f-h-mob"><button type="button" class="f-toggle" id="f-company-btn" aria-expanded="false" aria-controls="f-company">Company</button></h3>
+        <ul role="list" id="f-company"><li><a href="about.html">About</a></li><li><a href="about.html#team">Team</a></li><li><a href="accessibility.html">Accessibility</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul>
+      </div>
+      <div class="f-group" data-f-group>
+        <h3 class="f-h-desk">Follow</h3>
+        <h3 class="f-h-mob"><button type="button" class="f-toggle" id="f-follow-btn" aria-expanded="false" aria-controls="f-follow">Follow</button></h3>
+        <ul role="list" id="f-follow"><li><a href="https://www.instagram.com/clipper.aviation/" target="_blank" rel="noopener">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-cert">Clipper Aviation Charter holds FAA Air Carrier Certificate No. 3NVA962L and conducts charter operations under 14 CFR Part 135.</p>
+      <p class="footer-rights">© 2026 Clipper Aviation. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- V39 change 22: small floating Request a Quote button for 1060px and below (CSS shows it only there; the header has no quote button at that width). Same popup as every [data-quote-open]. -->
+<a class="fab-quote" href="client-login.html" aria-label="Client Login"><span class="btn-sizer" aria-hidden="true">Request a Quote</span><span class="btn-label">Client Login</span></a>
+
+<!-- ============ QUOTE REQUEST MODAL (front-end only; opened by any [data-quote-open]) ============ -->
+<div class="quote-modal" id="quote-modal" data-quote-src="quote-frame.html" hidden>
+  <div class="quote-backdrop" data-quote-close></div>
+  <div class="quote-dialog" role="dialog" aria-modal="true" aria-labelledby="quote-title">
+    <button class="quote-close" type="button" data-quote-close aria-label="Close request a quote form">&times;</button>
+    <div class="split text-wide" style="align-items:start">
+      <div>
+        <h2 class="h1" id="quote-title">Cleared <br>for Takeoff.</h2>
+        <p class="subtitle">It would be our pleasure to support your travel.</p>
+        <p class="quote-lines">Please tell us about your plans and our team will<br class="br-wide"> respond immediately with availability and pricing.</p>
+        <p class="small quote-talk" style="margin-top:var(--s6)">Prefer to talk?<br><a class="arrow-link" href="tel:+18554635999">+1 (855) 463-5999</a></p>
+        <!-- V36 change 6: the Powered by JetInsight logo (link, alt text and new-tab note unchanged) moved from the form footer to sit directly under the phone number -->
+        <p class="quote-powered"><a class="ji-powered" href="https://www.jetinsight.com/" target="_blank" rel="noopener"><img src="../shared/3c/3ce6377322fd519c3bd0565d3dfe987e37e047d945ea40810a4ed374081a935c/jetinsight_powered.svg" width="118" height="31" alt="Powered by JetInsight"><span class="visually-hidden"> (opens in a new tab)</span></a></p>
+      </div>
+      <div>
+        <!-- V35 change 32: fields follow the JetInsight Web-Request widget (legs: From, To, Depart date, Start time, Remove). Hand-off to JetInsight lives in js/jetinsight.js
+             and is in TEST MODE (JETINSIGHT_CONFIG.live=false): nothing is sent. See JETINSIGHT_NOTES.md. -->
+        <div class="quote-frame-slot" data-quote-slot></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/estimate-rules.js" defer></script>
+<script src="js/estimate-ui.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/jetinsight.js" defer></script>
+<script src="js/turnstile.js" defer></script>
+<!-- V52 change 2: cookie notice (informational, shown by js/analytics.js, which also holds the Clarity and GA4 ids) -->
+<div class="cookie-notice" data-cookie-notice role="region" aria-label="Privacy choices">
+  <p class="cookie-notice-text" data-cookie-text>Tags stay off until you accept. Continuing is not consent. This preview does not load Analytics or replay.</p>
+  <div class="cookie-notice-actions">
+    <button class="cookie-notice-ok" type="button" data-consent="accept">Accept</button>
+    <button class="cookie-notice-ok cookie-notice-reject" type="button" data-consent="reject">Reject</button>
+    <button class="cookie-notice-link" type="button" data-consent="customize">Customize</button>
+    <a class="cookie-notice-link" data-cookie-privacy href="privacy.html">Privacy<span class="visually-hidden"> policy</span></a>
+  </div>
+  <div class="cookie-customize" data-cookie-customize hidden>
+    <label class="cookie-notice-text"><input type="checkbox" data-purpose="analytics"> Public page measurement</label>
+    <label class="cookie-notice-text"><input type="checkbox" data-purpose="replay"> Heatmaps and replay, after you accept and an owned id is verified</label>
+    <button class="cookie-notice-ok" type="button" data-consent="save">Save choices</button>
+  </div>
+</div>
+<script src="js/datalayer.js" defer></script>
+<script src="js/analytics.js" defer></script>
+</body>
+</html>
