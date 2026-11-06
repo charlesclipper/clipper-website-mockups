@@ -84,8 +84,7 @@ body.menu-open .header-quote-bar{visibility:hidden}
 @media (max-width:599.98px){
   body.page-estimate{scroll-padding-top:calc(var(--header-h) + 60px);scroll-padding-bottom:calc(88px + env(safe-area-inset-bottom))}
   body.page-estimate .legal{padding-top:60px}
-  body.page-estimate .est-status{line-height:1.4;padding-bottom:8px}
-  body.page-estimate .legal-inner{padding-right:0}
+  body.page-estimate .est-status{line-height:1.32;padding-bottom:4px}
   body.page-estimate .est-leg,body.page-estimate .field,body.page-estimate .est-status{scroll-margin-top:calc(var(--header-h) + 60px);scroll-margin-bottom:88px}
 }
 .pub-hint,.leg-date-note{font-size:1rem;line-height:1.45}
