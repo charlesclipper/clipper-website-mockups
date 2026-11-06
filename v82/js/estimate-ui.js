@@ -251,6 +251,15 @@
   form.addEventListener('submit', function (e) { e.preventDefault(); render(); });
   form.addEventListener('input', render);
   form.addEventListener('change', render);
-  addOcc();
+  var first = occHost.querySelector('.est-leg');
+  if (!first) addOcc();
+  else {
+    placeOptions(first.querySelector('.leg-from'));
+    placeOptions(first.querySelector('.leg-to'));
+    first.querySelector('.leg-from').value = 'vny';
+    first.querySelector('.leg-to').value = 'las';
+    bindLeg(first);
+    renumber();
+  }
   render();
 })();
