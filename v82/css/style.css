@@ -93,7 +93,7 @@ body.menu-open .header-quote-bar{visibility:hidden}
 .peak-flag{font-weight:600}
 .cookie-notice-reject{background:transparent;color:var(--white)}
 h1,h2,h3,p,li,td,th,.h1,.lead,a{overflow-wrap:anywhere}
-.footer-grid a[href^="mailto:"],.footer-grid a[href^="tel:"]{overflow-wrap:anywhere}
+.footer-grid a,.footer-grid h3,.footer-grid h4,.footer-grid p{overflow-wrap:anywhere}
 @media (max-width:599.98px){.login-panel{margin-right:calc(143px + 16px)}}
 button.cookie-notice-link{background:transparent;color:var(--white);border:1px solid var(--white);cursor:pointer;-webkit-appearance:none;appearance:none}
 body:has(.cookie-notice:not([hidden])) .fab-quote{bottom:calc(12rem + env(safe-area-inset-bottom))}
