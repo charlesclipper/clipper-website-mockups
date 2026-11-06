@@ -24,7 +24,6 @@
   var NOTICE_WITHOUT_IDS = true;
 
   var NOTICE_KEY = 'ca_cookie_notice_ok';
-  var PRIVACY_URL = 'https://clipperaviation.com/privacy-policy/';   // same link as the footer
 
   function isReal(id) { return !!id && id.indexOf('PLACEHOLDER') === -1; }   // empty or any *PLACEHOLDER* value = not configured
   var haveGA = isReal(GA4_ID), haveCL = isReal(CLARITY_ID);
@@ -113,7 +112,6 @@
     var n = document.querySelector('[data-cookie-notice]'); if (!n) return;
     var seen = false; try { seen = localStorage.getItem(NOTICE_KEY) === '1'; } catch (err) { /* storage blocked: show it every visit */ }
     if (seen || !(haveGA || haveCL || NOTICE_WITHOUT_IDS)) return;
-    var link = n.querySelector('[data-cookie-privacy]'); if (link) link.href = PRIVACY_URL;
     n.hidden = false;
     n.querySelector('[data-cookie-ok]').addEventListener('click', function () {
       try { localStorage.setItem(NOTICE_KEY, '1'); } catch (err) { /* ignore */ }
