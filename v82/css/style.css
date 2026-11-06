@@ -81,4 +81,7 @@ body.menu-open .header-quote-bar{visibility:hidden}
 .leg-card{border:1px solid var(--line);background:var(--white);padding:var(--s5);margin:0 0 var(--s4)}
 .leg-card h2{margin:0 0 var(--s2)}
 .est-actions button,.leg-card .btn,.remove-leg,.remove-repo{min-height:44px}
-.pub-hint{font-size:1rem;line-height:1.45}
+.pub-hint,.leg-date-note{font-size:1rem;line-height:1.45}
+.leg-date-note{margin:var(--s2) 0}
+.leg-peak{border-left:3px solid var(--navy);padding-left:var(--s3)}
+.peak-flag{font-weight:600}

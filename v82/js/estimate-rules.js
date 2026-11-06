@@ -43,6 +43,44 @@
     '2027-12-23': 1, '2027-12-24': 1, '2027-12-25': 1, '2027-12-26': 1, '2027-12-30': 1, '2027-12-31': 1
   };
 
+  var PEAK_TERMS = {
+    rate: 'Rates never change, with peak days subject only to cancellation windows.',
+    nonPeak: [
+      'Within 72 hours of departure, 50% of trip price is non-refundable',
+      'Within 48 hours of departure, 100% of trip price is non-refundable',
+      'Outside of 72 hours, no penalty'
+    ],
+    peakShared: [
+      'Within 2 weeks of departure, 50% of the trip price is non-refundable',
+      'Within 72 hours of departure, 100% of trip price is non-refundable'
+    ],
+    peakSiteOnly: 'Outside of 2 weeks, no penalty',
+    siteNote: 'The AltitudeAccess page adds “Outside of 2 weeks, no penalty” to the peak list. The brochure peak list does not repeat that line.',
+    availability: 'Seventy-two hours’ notice secures your aircraft. Trips inside 72 hours are confirmed when the schedule allows. That is an availability warning, not a change in price. This preview does not start a cancellation clock.'
+  };
+
+  function daysInMonth(year, month) {
+    var dim = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var leap = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    if (month === 2 && leap) return 29;
+    return dim[month] || 0;
+  }
+
+  function classifyDate(value) {
+    if (value == null || String(value).trim() === '') return { status: 'blank' };
+    var s = String(value).trim();
+    var m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return { status: 'invalid' };
+    var year = parseInt(m[1], 10);
+    var month = parseInt(m[2], 10);
+    var day = parseInt(m[3], 10);
+    if (month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month)) return { status: 'invalid' };
+    var iso = m[1] + '-' + m[2] + '-' + m[3];
+    if (year !== 2027) return { status: 'unsupported', iso: iso, year: year };
+    if (PEAK_2027[iso]) return { status: 'peak', iso: iso, year: 2027 };
+    return { status: 'nonpeak', iso: iso, year: 2027 };
+  }
+
   function placeById(id) {
     for (var i = 0; i < PLACES.length; i++) if (PLACES[i].id === id) return PLACES[i];
     return null;
@@ -259,11 +297,14 @@
     var total = 0;
     lines.forEach(function (line) { total += line.cents; });
     assumptions = baseAssumptions((input.reposition || []).length);
-    if (input.departureDate && PEAK_2027[input.departureDate]) {
-      assumptions.push('This date is a published 2027 peak day. Peak days do not change the rate. Cancellation terms differ (site: 50% within 2 weeks, 100% within 72 hours; outside 2 weeks the site says no penalty, and that outside line is not repeated on the brochure peak list).');
-    } else if (input.departureDate) {
-      assumptions.push('No peak price change. The published peak calendar is 2027 only, so a date outside that list is not marked peak here.');
-    }
+    var dateRows = [];
+    legs.forEach(function (leg, index) {
+      var classified = classifyDate(leg.date);
+      dateRows.push({ leg: index + 1, status: classified.status, iso: classified.iso || '', year: classified.year || null });
+    });
+    var anyPeak = dateRows.some(function (row) { return row.status === 'peak'; });
+    if (anyPeak) assumptions.push('At least one requested date is a published 2027 peak day. Peak days do not change the $5,500 rate. Cancellation terms differ. The page adds “Outside of 2 weeks, no penalty”; the brochure peak list does not repeat that line.');
+    else if (dateRows.some(function (row) { return row.status === 'nonpeak'; }) && !dateRows.some(function (row) { return row.status === 'unsupported' || row.status === 'invalid'; })) assumptions.push('Requested 2027 dates on this scenario are not published peak days. The rate is unchanged.');
 
     return {
       ok: true,
@@ -277,7 +318,9 @@
       assumptions: assumptions,
       knownSubtotalCents: total,
       knownSubtotal: formatUsd(total),
-      occupiedMinutes: occupiedMinutes
+      occupiedMinutes: occupiedMinutes,
+      dates: dateRows,
+      peakTerms: PEAK_TERMS
     };
   }
 
@@ -329,6 +372,8 @@
     parseUsd: parseUsd,
     formatUsd: formatUsd,
     estimate: estimate,
-    publishedHint: publishedHint
+    publishedHint: publishedHint,
+    classifyDate: classifyDate,
+    peakTerms: PEAK_TERMS
   };
 });

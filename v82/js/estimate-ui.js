@@ -68,6 +68,10 @@
       if (e.target.classList.contains('leg-from') || e.target.classList.contains('leg-to')) refreshHints();
     });
     leg.addEventListener('click', function (e) {
+      if (e.target.classList.contains('clear-date')) {
+        leg.querySelector('.leg-date').value = '';
+        render();
+      }
       if (e.target.classList.contains('remove-leg')) {
         if (occHost.querySelectorAll('.est-leg').length > 1) leg.remove();
         renumber();
@@ -101,14 +105,14 @@
         from: leg.querySelector('.leg-from').value,
         to: leg.querySelector('.leg-to').value,
         hours: leg.querySelector('.leg-hours').value,
-        minutes: leg.querySelector('.leg-minutes').value
+        minutes: leg.querySelector('.leg-minutes').value,
+        date: leg.querySelector('.leg-date').value
       });
     });
     var reposition = [];
     Array.prototype.forEach.call(repoHost.querySelectorAll('.repo-leg'), function (leg) {
       reposition.push({ miles: leg.querySelector('.repo-miles').value });
     });
-    var date = val('#est-date');
     return {
       occupied: occupied,
       reposition: reposition,
@@ -121,8 +125,7 @@
       hangar: pass('#est-hangar-mode', '#est-hangar-amt'),
       specialEvent: pass('#est-event-mode', '#est-event-amt'),
       international: pass('#est-intl-mode', '#est-intl-amt'),
-      passengers: val('#est-pax'),
-      departureDate: date
+      passengers: val('#est-pax')
     };
   }
 
@@ -132,7 +135,67 @@
     return n;
   }
 
+  function dateSentence(row) {
+    if (row.status === 'blank') return 'Requested departure date: none entered.';
+    if (row.status === 'invalid') return 'Requested departure date is not a real calendar date.';
+    if (row.status === 'unsupported') return row.iso + ' is outside the published 2027 peak calendar. Coverage for ' + row.year + ' is unavailable, so this date is not classified as peak or non-peak.';
+    if (row.status === 'peak') return 'Peak day. ' + row.iso + ' is a published 2027 peak day. The rate does not increase. Cancellation terms differ.';
+    return row.iso + ' is a 2027 date and is not a published peak day. The rate does not change.';
+  }
+
+  function paintDates() {
+    var rows = [];
+    Array.prototype.forEach.call(occHost.querySelectorAll('.est-leg'), function (leg, index) {
+      var classified = api.classifyDate(leg.querySelector('.leg-date').value);
+      var note = leg.querySelector('.leg-date-note');
+      note.textContent = 'Leg ' + (index + 1) + '. ' + dateSentence(classified);
+      note.classList.toggle('leg-peak', classified.status === 'peak');
+      rows.push({ leg: index + 1, status: classified.status, iso: classified.iso || '', year: classified.year || null });
+    });
+    var panel = document.getElementById('peak-panel');
+    panel.replaceChildren();
+    var anyPeak = rows.some(function (row) { return row.status === 'peak'; });
+    var title = document.createElement('h2');
+    title.className = 'h3';
+    title.textContent = anyPeak ? 'Peak day booking' : 'Requested trip dates';
+    panel.appendChild(title);
+    var list = document.createElement('ul');
+    rows.forEach(function (row) {
+      var item = document.createElement('li');
+      if (row.status === 'peak') {
+        var flag = document.createElement('strong');
+        flag.className = 'peak-flag';
+        flag.textContent = 'Peak day. ';
+        item.appendChild(flag);
+      }
+      item.appendChild(document.createTextNode(dateSentence(row)));
+      list.appendChild(item);
+    });
+    panel.appendChild(list);
+    var terms = api.peakTerms;
+    function addP(text) {
+      var p = document.createElement('p');
+      p.textContent = text;
+      panel.appendChild(p);
+    }
+    if (anyPeak) {
+      addP('Peak period cancellation terms, from the AltitudeAccess page: ' + terms.peakShared.join('; ') + '.');
+      addP(terms.siteNote);
+    } else if (rows.length && rows.every(function (row) { return row.status === 'nonpeak'; })) {
+      addP('Non-peak cancellation terms: ' + terms.nonPeak.join('; ') + '.');
+    }
+    addP(terms.rate);
+    addP(terms.availability);
+    var link = document.createElement('p');
+    var a = document.createElement('a');
+    a.href = 'altitudeaccess.html#cancellation-terms';
+    a.textContent = 'AltitudeAccess cancellation terms and 2027 peak calendar';
+    link.appendChild(a);
+    panel.appendChild(link);
+  }
+
   function render() {
+    paintDates();
     var result = api.estimate(read());
     out.replaceChildren();
     var status = document.createElement('p');

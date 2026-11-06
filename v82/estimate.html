@@ -66,7 +66,6 @@
       <p class="est-actions"><button type="button" id="add-repo">Add a repositioning leg to this scenario</button></p>
       <p>Whether a repositioning leg applies, and whether miles are statute or nautical, is not published. Nothing here converts a map into miles or time.</p>
       <div class="field"><label for="est-pax">Passengers</label><input id="est-pax" inputmode="numeric" autocomplete="off" placeholder="1–9"></div>
-      <div class="field"><label for="est-date">Departure date, optional</label><input id="est-date" type="date" autocomplete="off"></div>
       <div class="field"><label for="est-nights">Crew overnight nights</label><input id="est-nights" inputmode="numeric" autocomplete="off" placeholder="Blank leaves it out. 0 is an explicit zero."></div>
       <p><label><input id="est-sameday" type="checkbox"> Include the $1,000 same-day round-trip surcharge in this scenario</label></p>
       <p>That surcharge is published “up to crew rest limitations.” What counts as same-day, and whether the $1,000 replaces a repositioning fee, is not published.</p>
@@ -95,6 +94,7 @@
       <div class="field"><label for="est-intl-amt">International handling amount, USD</label><input id="est-intl-amt" inputmode="decimal" autocomplete="off"></div>
       <p class="est-actions"><button class="btn btn-primary" type="submit">Update subtotal</button></p>
     </form>
+    <div id="peak-panel" aria-live="polite"></div>
     <div id="estimate-out" aria-live="polite"></div>
     <template id="occ-template">
       <fieldset class="est-leg">
@@ -103,6 +103,8 @@
         <div class="field"><label>To <select class="leg-to" aria-label="To"></select></label></div>
         <p class="avg-quoted"><strong>Average quoted block time:</strong> Not loaded. No Clipper JetInsight quoted-block file has been retrieved. An average quoted block time is not a flown time, not a billed time, and not a confirmed final billable time.</p>
         <p>Quoted block time for this scenario. This is what you type. It is not an average quoted block time, not JetInsight data, and not a flown or billed time.</p>
+        <div class="field"><label>Requested departure date <input class="leg-date" type="date" aria-label="Requested departure date"></label> <button type="button" class="clear-date">Clear date</button></div>
+        <p class="leg-date-note" aria-live="polite"></p>
         <div class="field"><label>Quoted block time hours <input class="leg-hours" inputmode="numeric" autocomplete="off" aria-label="Quoted block time hours for this scenario"></label></div>
         <div class="field"><label>Quoted block time minutes <input class="leg-minutes" inputmode="numeric" autocomplete="off" aria-label="Quoted block time minutes for this scenario"></label></div>
         <p class="pub-hint" hidden></p>
