@@ -11,9 +11,9 @@
    Light, uppercase, wide tracking. Swap in a licensed Coldiac webfont by
    changing --font-display only. */
 /* V39 change 10: fonts are Latin-subset WOFF2 (U+0020-007E, U+00A0-017F plus common punctuation, arrows, euro, trademark), all OpenType features and the weight axis kept; font-display:swap. The original TTFs are in v37/v38. */
-@font-face{font-family:"Cormorant Garamond";src:url("../fonts/CormorantGaramond-var.woff2") format("woff2");font-weight:300 700;font-display:swap}
-@font-face{font-family:"Hanken Grotesk";src:url("../fonts/HankenGrotesk-var.woff2") format("woff2");font-weight:100 900;font-display:swap}
-@font-face{font-family:"Philosopher";src:url("../fonts/Philosopher-Italic.woff2") format("woff2");font-style:italic;font-weight:400;font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url("../../shared/7a/7a724ff84b36366eeb5c55b8b14fa05aeb3f0f183786ea662c904de0689a47dd/CormorantGaramond-var.woff2") format("woff2");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url("../../shared/7d/7defa9402541ef2f9740ee209c2e6e04c44afa37406b006b8ca4aa613f11108c/HankenGrotesk-var.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Philosopher";src:url("../../shared/53/531858bb082544c7cb77d42a9b5866ad8352587a8f28d42b8286a8b6f0d16769/Philosopher-Italic.woff2") format("woff2");font-style:italic;font-weight:400;font-display:swap}
 
 /* ---------- Design tokens ---------- */
 :root{
