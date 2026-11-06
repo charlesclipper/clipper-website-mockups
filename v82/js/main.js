@@ -703,7 +703,7 @@
     var inertTargets = function () { return Array.prototype.slice.call(document.querySelectorAll('main, footer, .site-header, .mobile-menu, .mockup-badge, .cookie-notice')); };
     function focusables() {
       return Array.prototype.filter.call(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'),
-        function (n) { return n.offsetParent !== null || n === document.activeElement; });
+        function (n) { return n.tabIndex >= 0 && !n.closest('[hidden]') && (n.offsetParent !== null || n === document.activeElement); });
     }
     function openModal(from) {
       if (!modal.hidden) return;
