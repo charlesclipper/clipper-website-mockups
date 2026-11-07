@@ -1,4 +1,5 @@
 # Publishing-cycle verification. This comment does not change routes, headers, or files.
+# Membership publishing-cycle verification. This comment does not change routes, headers, or files.
 {
 	admin off
 	persist_config off
